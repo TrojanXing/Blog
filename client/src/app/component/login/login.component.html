@@ -1,0 +1,34 @@
+<h1 class="page-header">Login Page</h1>
+
+<!--<div class="row show-hide-message">-->
+  <!--<div [ngClass]="messageClass">-->
+    <!--{{ message }}-->
+  <!--</div>-->
+<!--</div>-->
+
+<form [formGroup]="form"  (submit)="onLoginSubmit()" id="loginForm" class="col-lg-8 col-md-10 col-sm-12 mx-auto mt-4">
+
+  <div class="form-group">
+    <label for="Email">Email address</label>
+    <div>
+      <input type="email" class="form-control" id="Email"
+             placeholder="Enter email" formControlName="email"
+             (blur)="checkEmail()"/>
+      <small id="messageEmail" class="form-text text-muted">We'll never share your email with anyone else.</small>
+      <!--<ul [ngClass]="{'invalid-feedback': (form.controls.email.errors || emailValid )&& form.controls.email.dirty}">-->
+        <!--<li *ngIf="form.controls.email.errors?.required && form.controls.email.dirty">This field is required</li>-->
+        <!--<li *ngIf="form.controls.email.errors?.minlength || form.controls.email.errors?.maxlength">length between 5 and 20</li>-->
+        <!--<li *ngIf="form.controls.email.errors?.validateEmail && form.controls.email.dirty">should be valid email</li>-->
+        <!--<li *ngIf="usernameMessage">{{ usernameMessage }}</li>-->
+      <!--</ul>-->
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="inputPwd">Password</label>
+    <input type="password" class="form-control" id="inputPwd"
+           placeholder="Password" formControlName="password">
+  </div>
+
+  <input type="submit" class="btn btn-primary" role="button" value="Submit"/>
+</form>

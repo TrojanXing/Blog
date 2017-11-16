@@ -1,16 +1,38 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { AppRoutingModule} from "./app.routing.module";
 import { AppComponent } from './app.component';
+import { ReactiveFormsModule} from "@angular/forms";
+import { HttpClientModule } from '@angular/common/http';
+
+import { NavbarComponent} from "./component/navbar/navbar.component";
+import { RouterModule, Routes } from "@angular/router";
+import { FooterComponent} from "./component/footer/footer.component";
+import { HomeComponent} from "./component/home/home.component";
+import { DashboardComponent } from "./component/dashboard/dashboard.component";
+import { RegisterComponent } from "./component/register/register.component";
+import { LoginComponent} from "./component/login/login.component";
+
+import { AuthService } from "./service/auth.service";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NavbarComponent,
+    HomeComponent,
+    DashboardComponent,
+    RegisterComponent,
+    LoginComponent,
+    FooterComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
+    RouterModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,18 @@
+/*body {*/
+  /*background: url("./background-img.jpg") no-repeat;*/
+  /*-webkit-background-size: cover;*/
+  /*background-size: cover;*/
+  /*background-attachment: fixed;*/
+/*}*/
+
+.jumbotron {
+  background-color: transparent;
+  text-align: right;
+  color: black;
+  margin-top: 40px;
+  margin-right: 20px;
+  font-size: 24px;
+}
+.jumbotron .signup {
+  margin-top:  28px;
+}
