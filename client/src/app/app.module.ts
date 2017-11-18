@@ -13,6 +13,7 @@ import { DashboardComponent } from "./component/dashboard/dashboard.component";
 import { RegisterComponent } from "./component/register/register.component";
 import { LoginComponent} from "./component/login/login.component";
 import { ProfileComponent } from "./component/profile/profile.component";
+import { FlashMessagesModule } from "angular2-flash-messages";
 // Service
 import { AuthService } from "./service/auth.service";
 
@@ -25,14 +26,15 @@ import { AuthService } from "./service/auth.service";
     RegisterComponent,
     LoginComponent,
     FooterComponent,
-    ProfileComponent
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     AppRoutingModule,
     RouterModule,
-    HttpClientModule
+    HttpClientModule,
+    FlashMessagesModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]
