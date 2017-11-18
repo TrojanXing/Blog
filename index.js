@@ -3,6 +3,9 @@ const app = express();
 const mongoose = require('mongoose');
 const config = require('./config/database');
 const path = require('path');
+const auth = require('./routes/authentication');
+const bodyParser = require('body-parser');
+const cors = require('cors');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(config.uri, function(err) {
@@ -13,8 +16,18 @@ mongoose.connect(config.uri, function(err) {
   }
 });
 
+// Middleware
+app.use(cors({
+  origin: 'http://localhost:4200' //dev server
+}));
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 //Provide access to client
-app.use(express.static(__dirname + '/client/dist/'))
+app.use(express.static(__dirname + '/client/dist/'));
+app.use('/auth', auth);
+
+
 
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname + '/client/dist/index.html'));

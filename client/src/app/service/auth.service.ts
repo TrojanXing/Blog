@@ -6,6 +6,8 @@ import { HttpClient } from "@angular/common/http";
 export class AuthService {
 
   domain = "http://localhost:3000";
+  authToken;
+  user;
   result: string[];
 
   constructor(
@@ -22,4 +24,14 @@ export class AuthService {
     return this.http.get(this.domain + '/auth/checkemail/' + email);
   }
 
+  loginUser(user) {
+    return this.http.post(this.domain + '/auth/login', user);
+  }
+
+  storeUserData(user, token) {
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', user);
+    this.authToken = token;
+    this.user = user;
+  }
 }

@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import {Form, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { Form, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { AuthService } from "../../service/auth.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -10,22 +12,91 @@ import {Form, FormBuilder, FormGroup, Validators} from "@angular/forms";
 export class LoginComponent implements OnInit {
 
   form: FormGroup;
+  processing = false;
+  message;
+  messageClass;
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router
   ) {
     this.createForm();
+
   }
 
+  /**
+   * Create a form
+   */
   createForm() {
     this.form = this.formBuilder.group({
-      email: '',
-      password: ''
-    })
+      username: ['', Validators.compose([
+        Validators.required,
+        this.usernameValidator
+      ])],
+      password: ['', Validators.compose([
+        Validators.required,
+        this.passwordValidator
+      ])]
+    });
+  }
+
+  /**
+   * Username and password validator
+   * @param controls
+   * @returns {any}
+   */
+  usernameValidator(controls) {
+    let regex = new RegExp('^[a-zA-Z0-9_-]{3,15}$');
+    if (regex.test(controls.value)) {
+      return null;
+    } else {
+      return { 'usernameVa': true };
+    }
+  }
+
+  passwordValidator(controls) {
+    let regex = new RegExp('^(?=.*\\d)(?=.*?[A-Z])(?=.*?[a-z]).{8,20}$');
+    if (regex.test(controls.value)) {
+      return null;
+    } else {
+      return { 'passwordValidator': true };
+    }
+  }
+
+  disableForm() {
+    this.form.controls['username'].disable();
+    this.form.controls['password'].disable();
+  }
+
+  enableForm() {
+    this.form.controls['username'].enable();
+    this.form.controls['password'].enable();
   }
 
   onLoginSubmit() {
-
+    this.processing = true;
+    this.disableForm();
+    const user = {
+      username: this.form.get('username').value,
+      password: this.form.get('password').value,
+    };
+    this.authService.loginUser(user).subscribe(data => {
+      if(!data['success']) {
+        this.messageClass = 'alert alert-danger';
+        this.message = data['message'];
+        this.processing = false;
+        this.enableForm();
+      } else {
+        this.messageClass = 'alert alert-success';
+        this.message = data['message'];
+        this.authService.storeUserData(data['token'], data['user']);
+        var that = this;
+        setTimeout(function () {
+          that.router.navigate(['./dashboard']);
+        }, 2000);
+      }
+    });
   }
 
   ngOnInit() {

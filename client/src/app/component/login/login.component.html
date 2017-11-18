@@ -1,34 +1,42 @@
 <h1 class="page-header">Login Page</h1>
 
-<!--<div class="row show-hide-message">-->
-  <!--<div [ngClass]="messageClass">-->
-    <!--{{ message }}-->
-  <!--</div>-->
-<!--</div>-->
+<div class="row show-hide-message">
+  <div [ngClass]="messageClass">
+    {{ message }}
+  </div>
+</div>
 
 <form [formGroup]="form"  (submit)="onLoginSubmit()" id="loginForm" class="col-lg-8 col-md-10 col-sm-12 mx-auto mt-4">
 
   <div class="form-group">
-    <label for="Email">Email address</label>
+    <label for="Username">Username</label>
     <div>
-      <input type="email" class="form-control" id="Email"
-             placeholder="Enter email" formControlName="email"
-             (blur)="checkEmail()"/>
-      <small id="messageEmail" class="form-text text-muted">We'll never share your email with anyone else.</small>
-      <!--<ul [ngClass]="{'invalid-feedback': (form.controls.email.errors || emailValid )&& form.controls.email.dirty}">-->
-        <!--<li *ngIf="form.controls.email.errors?.required && form.controls.email.dirty">This field is required</li>-->
-        <!--<li *ngIf="form.controls.email.errors?.minlength || form.controls.email.errors?.maxlength">length between 5 and 20</li>-->
-        <!--<li *ngIf="form.controls.email.errors?.validateEmail && form.controls.email.dirty">should be valid email</li>-->
-        <!--<li *ngIf="usernameMessage">{{ usernameMessage }}</li>-->
-      <!--</ul>-->
+      <input type="username" class="form-control" id="Username"
+             placeholder="Enter username" formControlName="username"
+             [ngClass]="{
+              'is-invalid': form.controls.username.errors && form.controls.username.dirty,
+              'is-valid': !form.controls.username.errors && form.controls.username.dirty}">
+      <ul class="invalid-feedback">
+        <li *ngIf="form.controls.username.errors?.usernameValidator && form.controls.username.dirty">This is not a valid username</li>
+        <li *ngIf="form.controls.username.errors?.required && form.controls.username.dirty">This field is required</li>
+      </ul>
     </div>
   </div>
 
   <div class="form-group">
     <label for="inputPwd">Password</label>
     <input type="password" class="form-control" id="inputPwd"
-           placeholder="Password" formControlName="password">
+           placeholder="Password" formControlName="password"
+           [ngClass]="{
+             'is-invalid': (form.controls.password.errors && form.controls.password.dirty),
+             'is-valid': !form.controls.password.errors}">
+    <ul [ngClass]="{'invalid-feedback': (form.controls.password.errors || passwordValid )&& form.controls.password.dirty}">
+      <li *ngIf="form.controls.password.errors?.required && form.controls.password.dirty">This field is required</li>
+      <li *ngIf="form.controls.password.errors?.passwordValidator && form.controls.password.dirty">Valid password include at least one upper case letter, one lower case letter, and one numeric digit</li>
+    </ul>
   </div>
 
   <input type="submit" class="btn btn-primary" role="button" value="Submit"/>
 </form>
+
+<p>{{ uesrnameExist }}</p>

@@ -29,20 +29,85 @@ export class RegisterComponent implements OnInit {
     this.createForm()
   }
 
+  /**
+   * Create a form
+   */
   createForm() {
     this.form = this.formBuilder.group({
       email: ['', Validators.compose([
         Validators.required,
         Validators.minLength(5),
         Validators.maxLength(20),
-        this.validateEmail
+        this.emailValidator
       ])],
-      username: ['', Validators.required],
-      password: ['', Validators.required],
+      username: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(15),
+        this.usernameValidator
+      ])],
+      password: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(20),
+        this.passwordValidator
+      ])],
       confirm: ['', Validators.required]
     }, { validator: this.matchingPassword('password', 'confirm')})
   }
 
+  /**
+   * Value in confirm should equal to that in password
+   *
+   * @param password
+   * @param confirm
+   * @returns {(group: FormGroup) => {matchingPassword: boolean}}
+   */
+  matchingPassword(password, confirm) {
+    return function(group: FormGroup) {
+      if(group.controls[password].value === group.controls[confirm].value) {
+        return null;
+      } else {
+        return { 'matchingPassword': true }
+      }
+    }
+  }
+
+  /**
+   * Validators for username, email and password
+   * @param controls
+   * @returns {any}
+   */
+  emailValidator(controls) {
+    const regex = new RegExp('^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$');
+    if (regex.test(controls.value)) {
+      return null;
+    } else {
+      return { 'emailValidator': true };
+    }
+  }
+
+  usernameValidator(controls) {
+    let regex = new RegExp('^[a-zA-Z0-9_-]{3,15}$');
+    if (regex.test(controls.value)) {
+      return null;
+    } else {
+      return { 'usernameValidator': true };
+    }
+  }
+
+  passwordValidator(controls) {
+    let regex = new RegExp('^(?=.*\\d)(?=.*?[A-Z])(?=.*?[a-z]).{8,20}$');
+    if (regex.test(controls.value)) {
+      return null;
+    } else {
+      return { 'passwordValidator': true };
+    }
+  }
+
+  /**
+   * Enable and disable form
+   */
   disableForm() {
     this.form.controls['email'].disable();
     this.form.controls['username'].disable();
@@ -57,32 +122,12 @@ export class RegisterComponent implements OnInit {
     this.form.controls['confirm'].enable();
   }
 
-  matchingPassword(password, confirm) {
-    return function(group: FormGroup) {
-      if(group.controls[password].value === group.controls[confirm].value) {
-        return null;
-      } else {
-        return { 'matchingPassword': true }
-      }
-    }
-  }
-
-  validateEmail(controls) {
-    const regex = new RegExp('^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$');
-    if (regex.test(controls.value)) {
-      return null;
-    } else {
-      return { 'validateEmail': true };
-    }
-  }
-
+  /**
+   * Submit form
+   */
   onRegisterSubmit() {
-    // console.log('form submitted');
-    // console.log(this.form.get('email').value);
-    // console.log(this.form.get('username').value);
-    // console.log(this.form.get('password').value);
     this.processing = true;
-    this.disableForm()
+    this.disableForm();
     const user = {
       email: this.form.get('email').value,
       username: this.form.get('username').value,
@@ -105,30 +150,48 @@ export class RegisterComponent implements OnInit {
     });
   }
 
+  /**
+   * Check email in server when input blur
+   */
   checkEmail() {
     const email = this.form.controls['email'].value;
-    this.authService.checkEmail(email).subscribe(data => {
-      if(!data['success']) {
-        this.emailValid = false;
-        this.emailMessage = data['message'];
-      } else {
-        this.emailValid = true;
-        this.emailMessage = data['message'];
-      }
-    });
+    if (email) {
+      this.authService.checkEmail(email).subscribe(data => {
+        if(!data['success']) {
+          this.emailValid = false;
+          this.emailMessage = data['message'];
+        } else {
+          this.emailValid = true;
+          this.emailMessage = data['message'];
+        }
+      });
+    } else {
+      this.emailValid = false;
+      // this.emailMessage = 'Email is not provided'
+    }
+
   }
 
+  /**
+   * Check username in server when input blur
+   */
   checkUsername() {
     const username = this.form.controls['username'].value;
-    this.authService.checkUsername(username).subscribe(data => {
-      if(!data['success']) {
-        this.usernameValid = false;
-        this.usernameMessage = data['message'];
-      } else {
-        this.usernameValid = true;
-        this.usernameMessage = data['message'];
-      }
-    });
+    if (username) {
+      this.authService.checkUsername(username).subscribe(data => {
+        if(!data['success']) {
+          this.usernameValid = false;
+          this.usernameMessage = data['message'];
+        } else {
+          this.usernameValid = true;
+          this.usernameMessage = data['message'];
+        }
+      });
+    } else {
+      this.usernameValid = false;
+      // this.usernameMessage = 'Username is not provided';
+    }
+
   }
 
   ngOnInit() {
