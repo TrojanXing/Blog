@@ -115,4 +115,37 @@ router.post('/login', function(req, res) {
   }
 });
 
+/**
+ * grab token, all operation need auth blow this
+ */
+router.use(function (req, res, next) {
+  const token = req.headers['auth'];
+  if (!token) {
+    res.json({ success: false, message: 'No token provided' })
+  } else {
+    jwt.verify(token, config.secret, function (err, decoded) {
+      if (err) {
+        res.json({ success: false, message: 'Token invalid: ' + err })
+      } else {
+        req.decoded = decoded;
+        next();
+      }
+    })
+  }
+});
+
+router.get('/profile', function (req, res) {
+  User.findOne({ _id: req.decoded.userId}).select('username email').exec(function (err, user) {
+    if (err) {
+      res.json({ success: false, message: err});
+    } else {
+      if (!user) {
+        res.json({ success: false, message: 'User not found' });
+      } else {
+        res.json({ success: true, user: user});
+      }
+    }
+  })
+});
+
 module.exports = router;

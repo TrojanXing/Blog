@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { AuthService } from "../../service/auth.service";
 
 @Component({
   selector: 'app-profile',
@@ -8,9 +9,21 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor() { }
+  username;
+  email;
+
+  constructor(
+    private authService: AuthService
+  ) {
+    // console.log(this);
+  }
 
   ngOnInit() {
+    this.authService.getProfile().subscribe(profile => {
+      // console.log(profile);
+      this.username = profile['user']['username'];
+      this.email = profile['user']['email'];
+    });
   }
 
 }

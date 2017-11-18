@@ -93,7 +93,7 @@ export class LoginComponent implements OnInit {
         this.authService.storeUserData(data['token'], data['user']);
         var that = this;
         setTimeout(function () {
-          that.router.navigate(['./dashboard']);
+          that.router.navigate(['./profile']);
         }, 2000);
       }
     });

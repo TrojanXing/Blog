@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validator} from "@angular/forms";
+import { AuthService } from "../../service/auth.service";
+import { Router } from "@angular/router";
+
 
 @Component({
   selector: 'app-navbar',
@@ -9,7 +11,16 @@ import { FormBuilder, FormGroup, Validator} from "@angular/forms";
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) { }
+
+  onLogoutClick() {
+    // console.log('Log out');
+    this.authService.logout();
+    this.router.navigate(['/home'])
+  }
 
   ngOnInit() {
   }
