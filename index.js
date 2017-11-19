@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const config = require('./config/database');
 const path = require('path');
 const auth = require('./routes/authentication');
+const blog = require('./routes/blog');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
@@ -26,6 +27,7 @@ app.use(bodyParser.json());
 //Provide access to client
 app.use(express.static(__dirname + '/client/dist/'));
 app.use('/auth', auth);
+app.use('/blog', blog);
 
 
 

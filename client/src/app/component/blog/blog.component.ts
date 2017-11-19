@@ -11,11 +11,23 @@ export class BlogComponent implements OnInit {
   messageClass;
   message;
   newPost = false;
+  loadingBlog = false;
 
   constructor() { }
 
   newBlogForm() {
     this.newPost = true;
+  }
+
+  reloadBlog() {
+    this.loadingBlog = true;
+    setTimeout(() => {
+      this.loadingBlog = false;
+    }, 4000);
+  }
+
+  draftComment() {
+
   }
 
   ngOnInit() {

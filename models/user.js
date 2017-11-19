@@ -10,7 +10,11 @@ function validEmailChacker(email) {
   return reg.test(email);
 }
 function emailLengthChedker(email) {
-  return email.length > 5 && email.length < 20;
+  if (!email) {
+    return false;
+  } else {
+    return email.length > 5 && email.length < 20;
+  }
 }
 
 let emailValidators = [
@@ -39,9 +43,7 @@ function passwordLengthChecker(password) {
   if (!password) {
     return false;
   } else {
-    if (password.length < 8 || password.length > 20) {
-      return false;
-    }
+    return  password.length > 8 && password.length < 20;
   }
 }
 

@@ -1,0 +1,34 @@
+.blogBtn {
+  height: 50px;
+}
+
+.card-header {
+  background-color: #07336A;
+  color: white;
+}
+.dropdown {
+  display: inline-block;
+}
+.dropdown-toggle::after {
+  display:none
+}
+
+.card-footer button {
+  min-width:72px;
+  min-height: 33px;
+}
+
+.btn-warning {
+  color: white;
+}
+
+.btn-warning:hover {
+  color: white;
+}
+
+.btn-warning:hover {
+  color: white;
+}
+
+
+.material-icons.md-18 { font-size: 18px; }
