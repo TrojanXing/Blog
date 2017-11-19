@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { AuthService } from "../../service/auth.service";
+import { BlogService } from "../../service/blog.service";
 
 @Component({
   selector: 'app-blog',
@@ -14,10 +16,15 @@ export class BlogComponent implements OnInit {
   newPost = false;
   loadingBlog = false;
   form;
+  processing = false;
+  username;
+  blogPosts;
 
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private blogService: BlogService
   ) {
     this.createNewBlog();
   }
@@ -35,10 +42,21 @@ export class BlogComponent implements OnInit {
         Validators.maxLength(500),
         Validators.minLength(5),
       ])],
-      createdBy: ['', Validators.compose([
-        Validators.required
-      ])]
+      createdBy: ['']
     });
+  }
+
+  /**
+   * Enable and disable form
+   */
+  disableNewBlogForm() {
+    this.form.controls['title'].disable();
+    this.form.controls['body'].disable();
+  }
+
+  enableNewBlogForm() {
+    this.form.controls['title'].enable();
+    this.form.controls['body'].enable();
   }
 
   /**
@@ -59,7 +77,38 @@ export class BlogComponent implements OnInit {
   }
 
   onBlogSubmit() {
-    console.log('Form submit');
+    this.processing = true;
+    this.disableNewBlogForm();
+    console.log(this.username);
+    const blog = {
+      title: this.form.get('title').value,
+      body: this.form.get('body').value,
+      createdBy: this.username
+    };
+    this.blogService.newBlog(blog).subscribe(data => {
+      if (!data['success']) {
+        this.messageClass = 'alert alert-danger';
+        this.message = data['message'];
+        this.processing = false;
+        this.enableNewBlogForm();
+      } else {
+        this.messageClass = 'alert alert-success';
+        this.message = data['message'];
+        this.getAllBlogs();
+        setTimeout(() => {
+          this.newPost = false;
+          this.processing = false;
+          this.message = false;
+          this.form.reset();
+        }, 2000);
+      }
+    });
+  }
+
+  getAllBlogs() {
+    this.blogService.getAllBlog().subscribe(data => {
+      this.blogPosts = data['blogs'];
+    })
   }
 
   goBack() {
@@ -78,6 +127,11 @@ export class BlogComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.authService.getProfile().subscribe(profile => {
+      // console.log(profile);
+      this.username = profile['user']['username'];
+    });
+    this.getAllBlogs();
   }
 
 }

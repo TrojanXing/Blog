@@ -6,6 +6,29 @@ const config = require('../config/database');
 
 mongoose.Promise = global.Promise;
 
+/**
+ * Middleware
+ * Grab token, all operation need auth blow this
+ */
+// router.use(function (req, res, next) {
+//   const token = req.headers['auth'];
+//   if (!token) {
+//     res.json({ success: false, message: 'No token provided' })
+//   } else {
+//     jwt.verify(token, config.secret, function (err, decoded) {
+//       if (err) {
+//         res.json({ success: false, message: 'Token invalid: ' + err })
+//       } else {
+//         req.decoded = decoded;
+//         next();
+//       }
+//     })
+//   }
+// });
+
+/**
+ * Post a new blog
+ */
 router.post('/newBlog', function(req, res) {
   if (!req.body.title) {
     res.json({ success: false, message: 'Blog title is required'});
@@ -41,6 +64,22 @@ router.post('/newBlog', function(req, res) {
       }
     })
   }
+});
+
+
+
+router.get('/allBlogs', function (req, res) {
+  Blog.find({}, function (err, blogs) {
+    if (err) {
+      res.json({ success: false, message: err })
+    } else {
+      if (!blogs) {
+        res.json({ success: false, message: 'Blogs Not Found'});
+      } else {
+        res.json({  success: true, blogs: blogs });
+      }
+    }
+  }).sort({'_id': -1})
 });
 
 module.exports = router;

@@ -19,6 +19,7 @@ import { BlogComponent } from "./component/blog/blog.component";
 import { AuthService } from "./service/auth.service";
 import { AuthGuard } from "./guards/auth.guard";
 import { NotAuthGuard } from "./guards/not.auth.guard";
+import { BlogService } from "./service/blog.service";
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { NotAuthGuard } from "./guards/not.auth.guard";
   providers: [
     AuthService,
     AuthGuard,
-    NotAuthGuard
+    NotAuthGuard,
+    BlogService
   ],
   bootstrap: [AppComponent]
 })

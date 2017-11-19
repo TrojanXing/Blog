@@ -1,5 +1,8 @@
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-  <a class="navbar-brand" routerLink="/home">Blog</a>
+<nav class="navbar navbar-expand-md navbar-light bg-light static-top">
+  <a class="navbar-brand" routerLink="/home">
+    <img id="logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Moha_example.svg/512px-Moha_example.svg.png" width="30" height="30" alt="">
+    Blog
+  </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -24,11 +27,11 @@
     </ul>
     <ul class="navbar-nav my-2 my-lg-0">
 
-      <li class="nav-item mr-2">
-        <button routerLink="/register" class="btn btn-primary my-2 my-sm-0" role="button">Sign Up</button>
+      <li class="nav-item mr-2" *ngIf="!authService.loggedIn()">
+        <button routerLink="/register" class="btn btn-outline-primary my-1" role="button">Sign Up</button>
       </li>
       <li class="nav-item mr-2" *ngIf="!authService.loggedIn()">
-        <button routerLink="/login" class="btn btn-primary my-2 my-sm-0" role="button">Login</button>
+        <button routerLink="/login" class="btn btn-outline-primary my-1" role="button">Login</button>
       </li>
       <li class="nav-item mr-2" *ngIf="authService.loggedIn()">
         <button class="btn btn-outline-primary my-2 my-sm-0" role="button" (click)="onLogoutClick()">Log out</button>

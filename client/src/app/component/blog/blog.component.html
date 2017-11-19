@@ -1,7 +1,7 @@
 <h1 class="page-header">Blog Page</h1>
 <hr>
 
-<div class="row show-hide-message">
+<div class="row show-hide-message" *ngIf="message">
   <div [ngClass]="messageClass">
     {{ message }}
   </div>
@@ -12,7 +12,6 @@
     <div class="material-icons md-18">autorenew</div>Reload
   </button>
 </div>
-
 
 <form [formGroup]="form" name="blogForm" (submit)="onBlogSubmit()" *ngIf="newPost">
   <div class="form-group">
@@ -42,58 +41,55 @@
       <li *ngIf="bodyMessage">{{ bodyMessage }}</li>
     </ul>
   </div>
-  <button type="submit" class="btn btn-primary" (click)="onBlogSubmit()">Submit</button>
-  <button type="button" class="btn btn-secondary" (click)="goBack()">Go Back</button>
+  <button [disabled]="processing || !form.valid" type="submit" class="btn btn-primary" (click)="onBlogSubmit()">Submit</button>
+  <button [disabled]="processing" type="button" class="btn btn-secondary" (click)="goBack()">Go Back</button>
 </form><!-- Blog form -->
 
 <div *ngIf="!newPost">
-  <div class="card card-inverse card-info mt-3">
+  <div class="card card-inverse card-info mt-3" *ngFor="let blog of blogPosts">
     <div class="card-header">
-      Post title
+      {{ blog.title }}
     </div>
     <div class="card-block">
       <div class="container my-3">
-        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
-          Someone famous in Source Title Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
-          Someone famous in Source Title Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
-          Someone famous in Source Title Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
-          Someone famous in Source Title </p>
+        <p class="card-text">{{ blog.body }}</p>
       </div>
     </div>
     <div class="card-footer">
-      <strong>Posted by: </strong>xingli
-      <br>
-      <strong>Data: </strong>10/11/2017
-      <br>
-      <div>
-        <strong>Likes: </strong>10
-        <br>
-        <strong>Dislike: </strong>1
-        <br>
+      <!--Post info-->
+      <div class="row mb-2">
+        <div class="col-sm-6"><strong>Posted by: </strong>{{ blog.createdBy }}</div>
+        <div class="col-sm-6"><strong>Data: </strong>{{ blog.createdAt | date: 'MMM dd, yyyy'}}</div>
+        <div class="col-sm-6" *ngIf="username === blog.createdBy"><strong>Likes: </strong>{{blog.likes}}</div>
+        <div class="col-sm-6" *ngIf="username === blog.createdBy"><strong>Dislike: </strong>{{blog.dislikes}}</div>
       </div>
-      <button type="button" class="btn btn-sm btn-info">Edit</button>
-      <button type="button" class="btn btn-sm btn-danger">Delete</button>
-      <div class="dropdown ml-1">
+      <!--Edit Button-->
+      <button *ngIf="username === blog.createdBy" type="button" class="btn btn-sm btn-info">Edit</button>
+      <!--Delete Button-->
+      <button *ngIf="username === blog.createdBy" type="button" class="btn btn-sm btn-danger">Delete</button>
+      <!-- Like Dropdown -->
+      <div class="dropdown ml-1" *ngIf="username !== blog.createdBy">
         <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="likeDropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="material-icons md-18">thumb_up</i>&nbsp;Likes:
+          <i class="material-icons md-18">thumb_up</i>&nbsp;Likes:&nbsp;{{ blog.likes }}
         </button>
-        <div class="dropdown-menu" aria-labelledby="likeDropdownButton">
-          <a class="dropdown-item" href="#">hrhrda</a>
+        <div class="dropdown-menu" aria-labelledby="likeDropdownButton" *ngIf="blog.likedBy[0]">
+          <a class="dropdown-item" *ngFor="let likedBy of blog.likedBy" href="#">{{ likedBy }}</a>
         </div>
       </div><!-- Like Fropdown -->
-      <div class="dropdown ml-1">
+      <!-- Dislike dropdown -->
+      <div class="dropdown ml-1" *ngIf="username !== blog.createdBy">
       <button class="btn btn-warning btn-sm dropdown-toggle" type="button" id="dislikeDropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <i class="material-icons md-18">thumb_down</i>&nbsp;Disikes:
+        <i class="material-icons md-18">thumb_down</i>&nbsp;Disikes:&nbsp;{{ blog.dislikes }}
       </button>
-      <div class="dropdown-menu" aria-labelledby="dislikeDropdownButton">
-        <a class="dropdown-item" href="#">hrhrda</a>
+      <div class="dropdown-menu" aria-labelledby="dislikeDropdownButton" *ngIf="blog.dislikedBy[0]">
+        <a class="dropdown-item" href="#" *ngFor="let dislikedBy of blog.dislikedBy">{{ dislikedBy }}</a>
       </div>
     </div><!-- disike Fropdown -->
     </div><!-- card footer -->
 
     <ul class="list-group">
       <li class="list-group-item">
-        <button type="button" name="button" class="btn btn-sm btn-danger"
+        <button type="button" name="button" class="btn btn-sm btn-outline-info"
         (click)="draftComment()">Post Comment</button>
         <br>
         <!--<form action="">-->

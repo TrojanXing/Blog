@@ -1,11 +1,11 @@
 <div class="jumbotron">
   <div class="container">
-    <h1 class="display-5 mb-3"> Blog </h1>
-    <p class="mb-0">Record and share your life anytime</p>
-    <p>Easy to use, totally free</p>
-    <!--<p id="signupBtn"><a class="btn btn-primary" data-toggle="modal" data-target="#signupModal"-->
-    <!--data-whatever="@mdo" href="#" role="button">Sign up</a></p>-->
-    <button routerLink="/register" type="button" class="btn btn-outline-primary" role="button">Sign up</button>
+    <h1 class="display-5 mb-5"> {{ title }} </h1>
+    <p><i class="material-icons">accessibility</i>&nbsp;Connect with friends and the world around you</p>
+    <p><i class="material-icons">touch_app</i>&nbsp; See photos and updates from friends in News Feed.</p>
+    <p><i class="material-icons">timeline</i>&nbsp; Share what's new in your life</p>
+    <button  *ngIf="!authService.loggedIn()" routerLink="/register" type="button" class="btn btn-lg btn-outline-primary" role="button">Sign Up &nbsp; &raquo;</button>
   </div>
 </div><!-- ./jumbotron -->
 
+<div></div>

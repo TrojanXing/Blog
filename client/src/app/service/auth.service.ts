@@ -14,7 +14,7 @@ export class AuthService {
     private http:HttpClient
   ) { }
 
-  creatAuthHeader() {
+  createAuthHeader() {
     this.loadToken();
     this.httpOptions = {
       headers: new HttpHeaders({
@@ -30,7 +30,6 @@ export class AuthService {
   loadToken() {
     const token = localStorage.getItem('token');
     this.authToken = token;
-    // console.log('load token: ' + token);
   }
 
   registerUser(user) {
@@ -61,7 +60,7 @@ export class AuthService {
   }
 
   getProfile() {
-    this.creatAuthHeader();
+    this.createAuthHeader();
     return this.http.get(this.domain + '/auth/profile', this.httpOptions);
   }
 

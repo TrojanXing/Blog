@@ -134,6 +134,10 @@ router.use(function (req, res, next) {
   }
 });
 
+/**
+ * Get user profile
+ */
+
 router.get('/profile', function (req, res) {
   User.findOne({ _id: req.decoded.userId}).select('username email').exec(function (err, user) {
     if (err) {
