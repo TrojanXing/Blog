@@ -12,10 +12,10 @@
       <li *ngIf="authService.loggedIn()" class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
         <a class="nav-link" routerLink="/dashboard">DashBoard</a>
       </li>
-      <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+      <li *ngIf="authService.loggedIn()" class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
         <a class="nav-link" routerLink="/profile">Profile</a>
       </li>
-      <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+      <li *ngIf="authService.loggedIn()" class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
         <a class="nav-link" routerLink="/">Blog</a>
       </li>
       <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
@@ -27,10 +27,10 @@
       <li class="nav-item mr-2">
         <button routerLink="/register" class="btn btn-primary my-2 my-sm-0" role="button">Sign Up</button>
       </li>
-      <li class="nav-item mr-2">
+      <li class="nav-item mr-2" *ngIf="!authService.loggedIn()">
         <button routerLink="/login" class="btn btn-primary my-2 my-sm-0" role="button">Login</button>
       </li>
-      <li class="nav-item mr-2">
+      <li class="nav-item mr-2" *ngIf="authService.loggedIn()">
         <button class="btn btn-outline-primary my-2 my-sm-0" role="button" (click)="onLogoutClick()">Log out</button>
       </li>
     </ul>

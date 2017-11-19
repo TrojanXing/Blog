@@ -1,18 +1,27 @@
-/*body {*/
-  /*background: url("./background-img.jpg") no-repeat;*/
-  /*-webkit-background-size: cover;*/
-  /*background-size: cover;*/
-  /*background-attachment: fixed;*/
-/*}*/
+body {
+  background: url("./background-img.jpg") no-repeat;
+  -webkit-background-size: cover;
+  background-size: cover;
+  background-attachment: fixed;
+}
 
 .jumbotron {
   background-color: transparent;
   text-align: right;
-  color: black;
+  color: white;
   margin-top: 40px;
-  margin-right: 20px;
-  font-size: 24px;
 }
+.jumbotron h1 {
+  margin-right: 40px;
+  font-family: 'Gloria Hallelujah', cursive;
+  font-size: 40px;
+}
+
+.jumbotron p {
+  font-family: 'Gloria Hallelujah', cursive;
+  font-size: 28px;
+}
+
 .jumbotron .signup {
   margin-top:  28px;
 }
