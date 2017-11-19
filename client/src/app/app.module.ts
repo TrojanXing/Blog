@@ -14,6 +14,7 @@ import { RegisterComponent } from "./component/register/register.component";
 import { LoginComponent} from "./component/login/login.component";
 import { ProfileComponent } from "./component/profile/profile.component";
 import { FlashMessagesModule } from "angular2-flash-messages";
+import { BlogComponent } from "./component/blog/blog.component";
 // Service
 import { AuthService } from "./service/auth.service";
 import { AuthGuard } from "./guards/auth.guard";
@@ -29,6 +30,7 @@ import { NotAuthGuard } from "./guards/not.auth.guard";
     LoginComponent,
     FooterComponent,
     ProfileComponent,
+    BlogComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,13 @@
+<h1 class="page-header">Blog Page</h1>
+<hr>
+
+<div class="row show-hide-message">
+  <div [ngClass]="messageClass">
+    {{ message }}
+  </div>
+</div>
+
+<button type="button" class="btn btn-info" *ngIf="!newPost" (click)="newBlogForm()">New Post</button>
+<button type="button" class="btn btn-info">
+  <span class="oi oi-icon-reload" title="icon reload" aria-hidden="true"></span>&nbsp;&nbsp; Reload
+</button>

@@ -7,11 +7,12 @@ import { LoginComponent } from "./component/login/login.component";
 import { ProfileComponent } from "./component/profile/profile.component";
 import { AuthGuard } from "./guards/auth.guard";
 import { NotAuthGuard } from "./guards/not.auth.guard";
+import { BlogComponent } from "./component/blog/blog.component";
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
-  { path: 'blog', component: HomeComponent },
+  { path: 'blog', component: BlogComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'register', component: RegisterComponent, canActivate: [NotAuthGuard] },
   { path: 'login', component: LoginComponent, canActivate: [NotAuthGuard] },

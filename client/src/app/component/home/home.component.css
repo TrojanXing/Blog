@@ -1,14 +1,14 @@
-body {
-  background: url("./background-img.jpg") no-repeat;
-  -webkit-background-size: cover;
-  background-size: cover;
-  background-attachment: fixed;
-}
+/*body {*/
+  /*background: url("./background-img.jpg") no-repeat;*/
+  /*-webkit-background-size: cover;*/
+  /*background-size: cover;*/
+  /*background-attachment: fixed;*/
+/*}*/
 
 .jumbotron {
-  background-color: transparent;
-  text-align: right;
-  color: white;
+  background-color: #ECEEEF;
+  /*text-align: right;*/
+  color: black;
   margin-top: 40px;
 }
 .jumbotron h1 {
