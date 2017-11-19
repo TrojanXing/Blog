@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
 
 mongoose.Promise = global.Promise;
-const Scheme = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 // Title validator
 function validTitleChacker(title) {
@@ -34,13 +34,13 @@ function bodyChecker(body) {
   if (!body) {
     return false;
   } else {
-    return body.length > 5 && body.length < 200;
+    return body.length > 5 && body.length < 500;
   }
 }
 let bodyValidators = [
   {
     validator: bodyChecker,
-    message: 'User name can only contain letter, number, - and _, and length should between 3-15'
+    message: 'Blog body length should between 5 ~ 500'
   }
 ];
 
@@ -49,7 +49,7 @@ function commentLengthChecker(comment) {
   if (!comment[0]) {
     return false;
   } else {
-    return comment[0] > 1 && comment[0] < 100;
+    return comment[0].length > 1 && comment[0].length < 100;
   }
 }
 

@@ -46,7 +46,6 @@ router.post('/register', function (req, res) {
         res.json({ success: true, message: 'User saved'});
       }
     });
-    // res.send('hello world');
   }
 });
 
@@ -116,7 +115,8 @@ router.post('/login', function(req, res) {
 });
 
 /**
- * grab token, all operation need auth blow this
+ * Middleware
+ * Grab token, all operation need auth blow this
  */
 router.use(function (req, res, next) {
   const token = req.headers['auth'];
