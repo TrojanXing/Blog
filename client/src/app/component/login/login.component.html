@@ -1,42 +1,45 @@
-<h1 class="page-header">Login Page</h1>
-<hr>
-<div class="row show-hide-message">
-  <div [ngClass]="messageClass">
-    {{ message }}
-  </div>
-</div>
-
-<form [formGroup]="form"  (submit)="onLoginSubmit()" id="loginForm" class="col-lg-8 col-md-10 col-sm-12 mx-auto mt-4">
-
-  <div class="form-group">
-    <label for="Username">Username</label>
-    <div>
-      <input type="username" class="form-control" id="Username"
-             placeholder="Enter username" formControlName="username"
-             [ngClass]="{
-              'is-invalid': form.controls.username.errors && form.controls.username.dirty,
-              'is-valid': !form.controls.username.errors && form.controls.username.dirty}">
-      <ul class="invalid-feedback">
-        <li *ngIf="form.controls.username.errors?.usernameValidator && form.controls.username.dirty">This is not a valid username</li>
-        <li *ngIf="form.controls.username.errors?.required && form.controls.username.dirty">This field is required</li>
-      </ul>
+<div class="container col-sm-12 col-md-10 col-lg-8">
+  <h1 class="page-header">Login Page</h1>
+  <hr>
+  <div class="show-hide-message">
+    <div [ngClass]="messageClass">
+      {{ message }}
     </div>
   </div>
 
-  <div class="form-group">
-    <label for="inputPwd">Password</label>
-    <input type="password" class="form-control" id="inputPwd"
-           placeholder="Password" formControlName="password"
-           [ngClass]="{
+  <form [formGroup]="form"  (submit)="onLoginSubmit()" id="loginForm" class="col-lg-10 col-md-11 col-sm-12 mx-auto mt-2">
+
+    <div class="form-group">
+      <label for="Username">Username</label>
+      <div>
+        <input type="username" class="form-control" id="Username"
+               placeholder="Enter username" formControlName="username"
+               [ngClass]="{
+              'is-invalid': form.controls.username.errors && form.controls.username.dirty,
+              'is-valid': !form.controls.username.errors && form.controls.username.dirty}">
+        <ul class="invalid-feedback">
+          <li *ngIf="form.controls.username.errors?.usernameValidator && form.controls.username.dirty">This is not a valid username</li>
+          <li *ngIf="form.controls.username.errors?.required && form.controls.username.dirty">This field is required</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputPwd">Password</label>
+      <input type="password" class="form-control" id="inputPwd"
+             placeholder="Password" formControlName="password"
+             [ngClass]="{
              'is-invalid': (form.controls.password.errors && form.controls.password.dirty),
              'is-valid': !form.controls.password.errors}">
-    <ul [ngClass]="{'invalid-feedback': (form.controls.password.errors || passwordValid )&& form.controls.password.dirty}">
-      <li *ngIf="form.controls.password.errors?.required && form.controls.password.dirty">This field is required</li>
-      <li *ngIf="form.controls.password.errors?.passwordValidator && form.controls.password.dirty">Valid password include at least one upper case letter, one lower case letter, and one numeric digit</li>
-    </ul>
-  </div>
+      <ul [ngClass]="{'invalid-feedback': (form.controls.password.errors || passwordValid )&& form.controls.password.dirty}">
+        <li *ngIf="form.controls.password.errors?.required && form.controls.password.dirty">This field is required</li>
+        <li *ngIf="form.controls.password.errors?.passwordValidator && form.controls.password.dirty">Valid password include at least one upper case letter, one lower case letter, and one numeric digit</li>
+      </ul>
+    </div>
 
-  <input type="submit" class="btn btn-primary" role="button" value="Submit"/>
-</form>
+    <input type="submit" class="btn btn-primary" role="button" value="Submit"/>
+  </form>
 
-<p>{{ uesrnameExist }}</p>
+  <p>{{ uesrnameExist }}</p>
+
+</div>

@@ -1,104 +1,107 @@
-<h1 class="page-header">Blog Page</h1>
-<hr>
+<div class="container">
+  <h1 class="page-header">Blog Page</h1>
+  <hr>
 
-<div class="row show-hide-message" *ngIf="message">
-  <div [ngClass]="messageClass">
-    {{ message }}
+  <div class="show-hide-message" *ngIf="message">
+    <div [ngClass]="messageClass">
+      {{ message }}
+    </div>
   </div>
-</div>
-<div *ngIf="!newPost">
-  <button type="button" class="btn btn-info blogBtn" (click)="newBlogForm()">New Post</button>
-  <button [disabled]="loadingBlog" type="button" class="btn btn-secondary blogBtn" (click)="reloadBlog()">
-    <div class="material-icons md-18">autorenew</div>Reload
-  </button>
-</div>
+  <div *ngIf="!newPost">
+    <button type="button" class="btn btn-info blogBtn" (click)="newBlogForm()">New Post</button>
+    <button [disabled]="loadingBlog" type="button" class="btn btn-secondary blogBtn" (click)="reloadBlog()">
+      <div class="material-icons md-18">autorenew</div>Reload
+    </button>
+  </div>
 
-<form [formGroup]="form" name="blogForm" (submit)="onBlogSubmit()" *ngIf="newPost">
-  <div class="form-group">
-    <label for="blogTitle">Title</label>
-    <input type="title" class="form-control" id="blogTitle"
-           placeholder="Title" formControlName="title"
-           [ngClass]="{'is-valid': form.controls.title.valid,
+  <form [formGroup]="form" name="blogForm" (submit)="onBlogSubmit()" *ngIf="newPost">
+    <div class="form-group">
+      <label for="blogTitle">Title</label>
+      <input type="title" class="form-control" id="blogTitle"
+             placeholder="Title" formControlName="title"
+             [ngClass]="{'is-valid': form.controls.title.valid,
                        'is-invalid': form.controls.title.errors && form.controls.title.dirty}">
-    <ul [ngClass]="{'valid-feedback': form.controls.title.valid,
+      <ul [ngClass]="{'valid-feedback': form.controls.title.valid,
                     'invalid-feedback': form.controls.title.errors && form.controls.title.dirty}">
-      <li *ngIf="form.controls.title.errors?.required && form.controls.title.dirty">This field is required</li>
-      <li *ngIf="(form.controls.title.errors?.minlength || form.controls.title.errors?.maxlength) && form.controls.title.dirty">Length between 5 and 50</li>
-      <li *ngIf="form.controls.title.errors?.titleValidator && form.controls.title.dirty">Blog title should include only letters and number</li>
-      <li *ngIf="titleMessage">{{ titleMessage }}</li>
-    </ul>
-  </div>
-  <div class="form-group">
-    <label for="exampleTextarea">Blog</label>
-    <textarea class="form-control" id="exampleTextarea" rows="10" cols="50"
-              formControlName="body"
-              [ngClass]="{'is-valid': form.controls.body.valid,
+        <li *ngIf="form.controls.title.errors?.required && form.controls.title.dirty">This field is required</li>
+        <li *ngIf="(form.controls.title.errors?.minlength || form.controls.title.errors?.maxlength) && form.controls.title.dirty">Length between 5 and 50</li>
+        <li *ngIf="form.controls.title.errors?.titleValidator && form.controls.title.dirty">Blog title should include only letters and number</li>
+        <li *ngIf="titleMessage">{{ titleMessage }}</li>
+      </ul>
+    </div>
+    <div class="form-group">
+      <label for="exampleTextarea">Blog</label>
+      <textarea class="form-control" id="exampleTextarea" rows="10" cols="50"
+                formControlName="body"
+                [ngClass]="{'is-valid': form.controls.body.valid,
                        'is-invalid': form.controls.body.errors && form.controls.body.dirty}"></textarea>
-    <ul [ngClass]="{'valid-feedback': form.controls.body.valid,
+      <ul [ngClass]="{'valid-feedback': form.controls.body.valid,
                     'invalid-feedback': form.controls.body.errors && form.controls.body.dirty}">
-      <li *ngIf="form.controls.body.errors?.required && form.controls.body.dirty">This field is required</li>
-      <li *ngIf="(form.controls.body.errors?.minlength || form.controls.body.errors?.maxlength) && form.controls.body.dirty">Length between 5 and 200</li>
-      <li *ngIf="bodyMessage">{{ bodyMessage }}</li>
-    </ul>
-  </div>
-  <button [disabled]="processing || !form.valid" type="submit" class="btn btn-primary" (click)="onBlogSubmit()">Submit</button>
-  <button [disabled]="processing" type="button" class="btn btn-secondary" (click)="goBack()">Go Back</button>
-</form><!-- Blog form -->
+        <li *ngIf="form.controls.body.errors?.required && form.controls.body.dirty">This field is required</li>
+        <li *ngIf="(form.controls.body.errors?.minlength || form.controls.body.errors?.maxlength) && form.controls.body.dirty">Length between 5 and 200</li>
+        <li *ngIf="bodyMessage">{{ bodyMessage }}</li>
+      </ul>
+    </div>
+    <button [disabled]="processing || !form.valid" type="submit" class="btn btn-primary" (click)="onBlogSubmit()">Submit</button>
+    <button [disabled]="processing" type="button" class="btn btn-secondary" (click)="goBack()">Go Back</button>
+  </form><!-- Blog form -->
 
-<div *ngIf="!newPost">
-  <div class="card card-inverse card-info mt-3" *ngFor="let blog of blogPosts">
-    <div class="card-header">
-      {{ blog.title }}
-    </div>
-    <div class="card-block">
-      <div class="container my-3">
-        <p class="card-text">{{ blog.body }}</p>
+  <div *ngIf="!newPost">
+    <div class="card card-inverse card-info mt-3" *ngFor="let blog of blogPosts">
+      <div class="card-header">
+        {{ blog.title }}
       </div>
-    </div>
-    <div class="card-footer">
-      <!--Post info-->
-      <div class="row mb-2">
-        <div class="col-sm-6"><strong>Posted by: </strong>{{ blog.createdBy }}</div>
-        <div class="col-sm-6"><strong>Data: </strong>{{ blog.createdAt | date: 'MMM dd, yyyy'}}</div>
-        <div class="col-sm-6" *ngIf="username === blog.createdBy"><strong>Likes: </strong>{{blog.likes}}</div>
-        <div class="col-sm-6" *ngIf="username === blog.createdBy"><strong>Dislike: </strong>{{blog.dislikes}}</div>
-      </div>
-      <!--Edit Button-->
-      <button *ngIf="username === blog.createdBy" type="button" class="btn btn-sm btn-info">Edit</button>
-      <!--Delete Button-->
-      <button *ngIf="username === blog.createdBy" type="button" class="btn btn-sm btn-danger">Delete</button>
-      <!-- Like Dropdown -->
-      <div class="dropdown ml-1" *ngIf="username !== blog.createdBy">
-        <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="likeDropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="material-icons md-18">thumb_up</i>&nbsp;Likes:&nbsp;{{ blog.likes }}
-        </button>
-        <div class="dropdown-menu" aria-labelledby="likeDropdownButton" *ngIf="blog.likedBy[0]">
-          <a class="dropdown-item" *ngFor="let likedBy of blog.likedBy" href="#">{{ likedBy }}</a>
+      <div class="card-block">
+        <div class="container my-3">
+          <p class="card-text">{{ blog.body }}</p>
         </div>
-      </div><!-- Like Fropdown -->
-      <!-- Dislike dropdown -->
-      <div class="dropdown ml-1" *ngIf="username !== blog.createdBy">
-      <button class="btn btn-warning btn-sm dropdown-toggle" type="button" id="dislikeDropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <i class="material-icons md-18">thumb_down</i>&nbsp;Disikes:&nbsp;{{ blog.dislikes }}
-      </button>
-      <div class="dropdown-menu" aria-labelledby="dislikeDropdownButton" *ngIf="blog.dislikedBy[0]">
-        <a class="dropdown-item" href="#" *ngFor="let dislikedBy of blog.dislikedBy">{{ dislikedBy }}</a>
       </div>
-    </div><!-- disike Fropdown -->
-    </div><!-- card footer -->
+      <div class="card-footer">
+        <!--Post info-->
+        <div class="row mb-2">
+          <div class="col-sm-6"><strong>Posted by: </strong>{{ blog.createdBy }}</div>
+          <div class="col-sm-6"><strong>Data: </strong>{{ blog.createdAt | date: 'MMM dd, yyyy'}}</div>
+          <div class="col-sm-6" *ngIf="username === blog.createdBy"><strong>Likes: </strong>{{blog.likes}}</div>
+          <div class="col-sm-6" *ngIf="username === blog.createdBy"><strong>Dislike: </strong>{{blog.dislikes}}</div>
+        </div>
+        <!--Edit Button-->
+        <button [routerLink]="['/edit-blog/', blog._id]" *ngIf="username === blog.createdBy" type="button" class="btn btn-sm btn-info">Edit</button>
+        <!--Delete Button-->
+        <button [routerLink]="['/delete-blog/', blog._id]" *ngIf="username === blog.createdBy" type="button" class="btn btn-sm btn-danger">Delete</button>
+        <!-- Like Dropdown -->
+        <div class="dropdown ml-1" *ngIf="username !== blog.createdBy">
+          <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="likeDropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="material-icons md-18">thumb_up</i>&nbsp;Likes:&nbsp;{{ blog.likes }}
+          </button>
+          <div class="dropdown-menu" aria-labelledby="likeDropdownButton" *ngIf="blog.likedBy[0]">
+            <a class="dropdown-item" *ngFor="let likedBy of blog.likedBy" href="#">{{ likedBy }}</a>
+          </div>
+        </div><!-- Like Fropdown -->
+        <!-- Dislike dropdown -->
+        <div class="dropdown ml-1" *ngIf="username !== blog.createdBy">
+          <button class="btn btn-warning btn-sm dropdown-toggle" type="button" id="dislikeDropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="material-icons md-18">thumb_down</i>&nbsp;Disikes:&nbsp;{{ blog.dislikes }}
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dislikeDropdownButton" *ngIf="blog.dislikedBy[0]">
+            <a class="dropdown-item" href="#" *ngFor="let dislikedBy of blog.dislikedBy">{{ dislikedBy }}</a>
+          </div>
+        </div><!-- disike Fropdown -->
+      </div><!-- card footer -->
 
-    <ul class="list-group">
-      <li class="list-group-item">
-        <button type="button" name="button" class="btn btn-sm btn-outline-info"
-        (click)="draftComment()">Post Comment</button>
-        <br>
-        <!--<form action="">-->
+      <ul class="list-group">
+        <li class="list-group-item">
+          <button type="button" name="button" class="btn btn-sm btn-outline-info"
+                  (click)="draftComment()">Post Comment</button>
+          <br>
+          <!--<form action="">-->
           <!--<textarea name="comment" id="" cols="30" rows="10" class="form-control"></textarea>-->
           <!--<button class="form-control" class="btn btn-info btn-sm">Submit Post</button>-->
           <!--<button class="form-control" class="btn btn-danger btn-sm">Cancel </button>-->
-        <!--</form>-->
-      </li>
-    </ul><!-- comment -->
+          <!--</form>-->
+        </li>
+      </ul><!-- comment -->
 
-  </div><!-- Card -->
+    </div><!-- Card -->
+  </div>
 </div>
+

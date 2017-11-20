@@ -4,6 +4,7 @@ import { AppRoutingModule} from "./app.routing.module";
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule} from "@angular/forms";
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from "@angular/forms";
 // Component
 import { NavbarComponent} from "./component/navbar/navbar.component";
 import { RouterModule, Routes } from "@angular/router";
@@ -15,6 +16,7 @@ import { LoginComponent} from "./component/login/login.component";
 import { ProfileComponent } from "./component/profile/profile.component";
 import { FlashMessagesModule } from "angular2-flash-messages";
 import { BlogComponent } from "./component/blog/blog.component";
+import { EditBlogComponent } from "./component/blog/edit-blog/edit-blog.component";
 // Service
 import { AuthService } from "./service/auth.service";
 import { AuthGuard } from "./guards/auth.guard";
@@ -31,7 +33,8 @@ import { BlogService } from "./service/blog.service";
     LoginComponent,
     FooterComponent,
     ProfileComponent,
-    BlogComponent
+    BlogComponent,
+    EditBlogComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +42,8 @@ import { BlogService } from "./service/blog.service";
     AppRoutingModule,
     RouterModule,
     HttpClientModule,
-    FlashMessagesModule
+    FlashMessagesModule,
+    FormsModule
   ],
   providers: [
     AuthService,

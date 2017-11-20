@@ -33,4 +33,9 @@ export class BlogService {
     return this.http.get(this.domain + '/blog/allBlogs', this.httpOptions);
   }
 
+  getSingleBlog(id) {
+    this.createAuthHeader();
+    return this.http.get(this.domain + '/blog/singleBlog/' + id, this.httpOptions);
+  }
+
 }

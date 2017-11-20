@@ -10,21 +10,21 @@ mongoose.Promise = global.Promise;
  * Middleware
  * Grab token, all operation need auth blow this
  */
-// router.use(function (req, res, next) {
-//   const token = req.headers['auth'];
-//   if (!token) {
-//     res.json({ success: false, message: 'No token provided' })
-//   } else {
-//     jwt.verify(token, config.secret, function (err, decoded) {
-//       if (err) {
-//         res.json({ success: false, message: 'Token invalid: ' + err })
-//       } else {
-//         req.decoded = decoded;
-//         next();
-//       }
-//     })
-//   }
-// });
+router.use(function (req, res, next) {
+  const token = req.headers['auth'];
+  if (!token) {
+    res.json({ success: false, message: 'No token provided' })
+  } else {
+    jwt.verify(token, config.secret, function (err, decoded) {
+      if (err) {
+        res.json({ success: false, message: 'Token invalid: ' + err })
+      } else {
+        req.decoded = decoded;
+        next();
+      }
+    })
+  }
+});
 
 /**
  * Post a new blog
@@ -80,6 +80,24 @@ router.get('/allBlogs', function (req, res) {
       }
     }
   }).sort({'_id': -1})
+});
+
+router.get('/singleBlog/:id', function (req, res) {
+  if (!req.params.id) {
+    res.json({ success: false, message: 'No blog id provided' })
+  } else {
+    Blog.findOne({ _id: req.params.id}, function (err, blog) {
+      if (err) {
+        res.json({ success: false, message: 'Cannot find any blog with given id' + req.params.id });
+      } else {
+        if (!blog) {
+          res.json({ success: false, message: 'Blog Not Found'});
+        } else {
+          res.json({  success: true, blog: blog });
+        }
+      }
+    });
+  }
 });
 
 module.exports = router;
