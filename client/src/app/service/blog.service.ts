@@ -47,4 +47,22 @@ export class BlogService {
     this.createAuthHeader();
     return this.http.delete(this.domain + '/blog/deleteBlog/' + id, this.httpOptions);
   }
+
+  likeBlog(id) {
+    this.createAuthHeader();
+    console.log(this.httpOptions);
+    let body = {
+      _id: id
+    };
+    return this.http.put(this.domain + '/blog/likeBlog/', body, this.httpOptions);
+  }
+
+  dislikeBlog(id) {
+    this.createAuthHeader();
+    let body = {
+      _id: id
+    };
+    return this.http.put(this.domain + '/blog/dislikeBlog/', body, this.httpOptions);
+  }
+
 }

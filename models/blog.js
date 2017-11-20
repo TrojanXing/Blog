@@ -14,7 +14,7 @@ function titleLengthCheCker(title) {
   if (!title) {
     return false;
   } else {
-    return title.length > 5 && title.length < 50;
+    return title.length >= 5 && title.length <= 50;
   }
 }
 
@@ -34,7 +34,7 @@ function bodyChecker(body) {
   if (!body) {
     return false;
   } else {
-    return body.length > 5 && body.length < 500;
+    return body.length >= 5 && body.length <= 500;
   }
 }
 let bodyValidators = [

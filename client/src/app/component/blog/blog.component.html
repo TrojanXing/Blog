@@ -71,23 +71,19 @@
         <button (click)="getDeleteTarget(blog)" data-toggle="modal" data-target="#deleteModal"
                 *ngIf="username === blog.createdBy" type="button" class="btn btn-sm btn-danger">Delete</button>
         <!-- Like Dropdown -->
-        <div class="dropdown ml-1" *ngIf="username !== blog.createdBy">
-          <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="likeDropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button *ngIf="username !== blog.createdBy" [disabled]="blog.likedBy.indexOf(username) !== -1" (click)="likeBlog(blog._id)" class="btn btn-success btn-sm" type="button" id="likeDropdownButton" aria-expanded="false">
             <i class="material-icons md-18">thumb_up</i>&nbsp;Likes:&nbsp;{{ blog.likes }}
           </button>
-          <div class="dropdown-menu" aria-labelledby="likeDropdownButton" *ngIf="blog.likedBy[0]">
-            <a class="dropdown-item" *ngFor="let likedBy of blog.likedBy" href="#">{{ likedBy }}</a>
-          </div>
-        </div><!-- Like Fropdown -->
+          <!--<div class="dropdown-menu" aria-labelledby="likeDropdownButton" *ngIf="blog.likedBy[0]">-->
+            <!--<a class="dropdown-item" *ngFor="let likedBy of blog.likedBy" href="#">{{ likedBy }}</a>-->
+          <!--</div>-->
         <!-- Dislike dropdown -->
-        <div class="dropdown ml-1" *ngIf="username !== blog.createdBy">
-          <button class="btn btn-warning btn-sm dropdown-toggle" type="button" id="dislikeDropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button *ngIf="username !== blog.createdBy" [disabled]="blog.dislikedBy.indexOf(username) !== -1" (click)="dislikeBlog(blog._id)" class="btn btn-warning btn-sm" type="button" id="dislikeDropdownButton"  aria-expanded="false">
             <i class="material-icons md-18">thumb_down</i>&nbsp;Disikes:&nbsp;{{ blog.dislikes }}
           </button>
-          <div class="dropdown-menu" aria-labelledby="dislikeDropdownButton" *ngIf="blog.dislikedBy[0]">
-            <a class="dropdown-item" href="#" *ngFor="let dislikedBy of blog.dislikedBy">{{ dislikedBy }}</a>
-          </div>
-        </div><!-- disike Fropdown -->
+          <!--<div class="dropdown-menu" aria-labelledby="dislikeDropdownButton" *ngIf="blog.dislikedBy[0]">-->
+            <!--<a class="dropdown-item" href="#" *ngFor="let dislikedBy of blog.dislikedBy">{{ dislikedBy }}</a>-->
+          <!--</div>-->
       </div><!-- card footer -->
 
       <ul class="list-group">
