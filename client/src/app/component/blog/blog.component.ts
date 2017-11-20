@@ -19,12 +19,12 @@ export class BlogComponent implements OnInit {
   processing = false;
   username;
   blogPosts;
-
+  deleteTarget;
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private blogService: BlogService
+    private blogService: BlogService,
   ) {
     this.createNewBlog();
   }
@@ -72,10 +72,16 @@ export class BlogComponent implements OnInit {
   }
 
 
+  /**
+   * Create a new blog
+   */
   newBlogForm() {
     this.newPost = true;
   }
 
+  /**
+   * Submit new blog
+   */
   onBlogSubmit() {
     this.processing = true;
     this.disableNewBlogForm();
@@ -95,34 +101,76 @@ export class BlogComponent implements OnInit {
         this.messageClass = 'alert alert-success';
         this.message = data['message'];
         this.getAllBlogs();
+        this.processing = false;
         setTimeout(() => {
           this.newPost = false;
-          this.processing = false;
           this.message = false;
           this.form.reset();
-        }, 2000);
+          this.enableNewBlogForm();
+        }, 1000);
       }
     });
   }
 
+  /**
+   * Get all blog from server
+   */
   getAllBlogs() {
     this.blogService.getAllBlog().subscribe(data => {
       this.blogPosts = data['blogs'];
-    })
+    });
   }
 
+  /**
+   * Go back to blog page, cancel create new blog
+   */
   goBack() {
     this.newPost = false;
   }
 
+  /**
+   * Reload blog page
+   */
   reloadBlog() {
     this.loadingBlog = true;
     this.getAllBlogs();
     setTimeout(() => {
       this.loadingBlog = false;
-    }, 4000);
+    }, 200);
   }
 
+  /**
+   * Delete a Blog
+   */
+  getDeleteTarget(blog) {
+    this.deleteTarget = blog;
+  }
+  deleteBlog() {
+    if (this.deleteTarget) {
+      this.processing = true;
+      this.blogService.deleteBlog(this.deleteTarget._id).subscribe(data => {
+        if (!data['success']) {
+          this.messageClass = 'alert alert-danger';
+          this.message = data['message'];
+          this.processing = false;
+        } else {
+          this.messageClass = 'alert alert-success';
+          this.message = data['message'];
+          this.getAllBlogs();
+        }
+        setTimeout(() => {
+          this.message = false;
+          this.processing = false;
+        }, 1000);
+      });
+      this.deleteTarget = null;
+    }
+
+  }
+
+  /**
+   * Create a comment
+   */
   draftComment() {
 
   }
