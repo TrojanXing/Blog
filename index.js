@@ -24,7 +24,6 @@ mongoose.connect(config.uri, function(err) {
 app.use(cors({
   origin: 'http://localhost:4200' //dev server
 }));
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 //Provide access to client

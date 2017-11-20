@@ -6,7 +6,7 @@ import { tokenNotExpired } from 'angular2-jwt';
 export class AuthService {
 
   // domain = "http://localhost:3000";
-  domain = "";
+  domain = "https://xingblog.herokuapp.com";
   authToken;
   user;
   httpOptions;
