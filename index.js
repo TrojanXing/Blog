@@ -8,7 +8,8 @@ const blog = require('./routes/blog');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-const port = process.env.port || 3000;
+const port = process.env.PORT || 3000;
+console.log(port);
 
 mongoose.Promise = global.Promise;
 mongoose.connect(config.uri, function(err) {
