@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "build": "cd client && ng build & cd .."
+    "build": "cd client && ng build --prod & cd .."
   },
   "repository": {
     "type": "git",

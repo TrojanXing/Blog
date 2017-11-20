@@ -31,7 +31,7 @@
              [ngClass]="{
              'is-invalid': (form.controls.password.errors && form.controls.password.dirty),
              'is-valid': !form.controls.password.errors}">
-      <ul [ngClass]="{'invalid-feedback': (form.controls.password.errors || passwordValid )&& form.controls.password.dirty}">
+      <ul [ngClass]="{'invalid-feedback': form.controls.password.errors && form.controls.password.dirty}">
         <li *ngIf="form.controls.password.errors?.required && form.controls.password.dirty">This field is required</li>
         <li *ngIf="form.controls.password.errors?.passwordValidator && form.controls.password.dirty">Valid password include at least one upper case letter, one lower case letter, and one numeric digit</li>
       </ul>
@@ -39,7 +39,4 @@
 
     <input type="submit" class="btn btn-primary" role="button" value="Submit"/>
   </form>
-
-  <p>{{ uesrnameExist }}</p>
-
 </div>

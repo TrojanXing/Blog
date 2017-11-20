@@ -12,7 +12,7 @@ export class HomeComponent implements OnInit {
   title = "Xing Blog";
 
   constructor(
-    private authService: AuthService
+    public authService: AuthService
   ) { }
 
   ngOnInit() {

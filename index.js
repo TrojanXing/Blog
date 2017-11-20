@@ -8,6 +8,8 @@ const blog = require('./routes/blog');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
+const port = process.env.port || 3000;
+
 mongoose.Promise = global.Promise;
 mongoose.connect(config.uri, function(err) {
   if(err) {
@@ -35,6 +37,6 @@ app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname + '/client/dist/index.html'));
 });
 
-app.listen(3000, function() {
-  console.log('Listening to port 3000');
+app.listen(port, function() {
+  console.log('Listening to port ' + port);
 });
