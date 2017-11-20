@@ -20,6 +20,7 @@ export class BlogComponent implements OnInit {
   username;
   blogPosts;
   deleteTarget;
+  tooltipMessage;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -179,15 +180,27 @@ export class BlogComponent implements OnInit {
    */
   likeBlog(id) {
     this.blogService.likeBlog(id).subscribe(data => {
-      console.log(data);
       this.getAllBlogs();
     });
   }
   dislikeBlog(id) {
     this.blogService.dislikeBlog(id).subscribe(data => {
-      console.log(data);
       this.getAllBlogs();
     })
+  }
+
+  getTooltipMessage(blog, like) {
+    let users = like? blog.likedBy : blog.dislikedBy;
+    if (users.length === 0) {
+      this.tooltipMessage = like ? 'No user like this post yet, be the first one' :
+        'A good blog, no user dislike this yet!';
+    } else {
+      this.tooltipMessage = '';
+      for (let i = 0; i < 3 && i < users.length; i++) {
+        this.tooltipMessage += (users[i] + ', ');
+      }
+      this.tooltipMessage += like? 'etc like this post' : 'etc dislike this blog';
+    }
   }
 
   ngOnInit() {
