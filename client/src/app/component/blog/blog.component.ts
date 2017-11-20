@@ -85,7 +85,6 @@ export class BlogComponent implements OnInit {
   onBlogSubmit() {
     this.processing = true;
     this.disableNewBlogForm();
-    console.log(this.username);
     const blog = {
       title: this.form.get('title').value,
       body: this.form.get('body').value,
@@ -175,10 +174,27 @@ export class BlogComponent implements OnInit {
 
   }
 
+  /**
+   * like and dislike a blog
+   */
+  likeBlog(id) {
+    this.blogService.likeBlog(id).subscribe(data => {
+      console.log(data);
+      this.getAllBlogs();
+    });
+  }
+  dislikeBlog(id) {
+    this.blogService.dislikeBlog(id).subscribe(data => {
+      console.log(data);
+      this.getAllBlogs();
+    })
+  }
+
   ngOnInit() {
     this.authService.getProfile().subscribe(profile => {
-      // console.log(profile);
-      this.username = profile['user']['username'];
+      if (typeof profile != "undefined") {
+        this.username = profile['user']['username'];
+      }
     });
     this.getAllBlogs();
   }
