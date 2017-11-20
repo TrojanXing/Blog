@@ -38,4 +38,8 @@ export class BlogService {
     return this.http.get(this.domain + '/blog/singleBlog/' + id, this.httpOptions);
   }
 
+  editBlog(blog) {
+    this.createAuthHeader();
+    return this.http.put(this.domain + '/blog/updateBlog', blog, this.httpOptions);
+  }
 }
