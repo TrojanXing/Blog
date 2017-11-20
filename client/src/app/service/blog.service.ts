@@ -42,4 +42,9 @@ export class BlogService {
     this.createAuthHeader();
     return this.http.put(this.domain + '/blog/updateBlog', blog, this.httpOptions);
   }
+
+  deleteBlog(id) {
+    this.createAuthHeader();
+    return this.http.delete(this.domain + '/blog/deleteBlog/' + id, this.httpOptions);
+  }
 }

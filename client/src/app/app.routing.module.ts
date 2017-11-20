@@ -9,6 +9,7 @@ import { AuthGuard } from "./guards/auth.guard";
 import { NotAuthGuard } from "./guards/not.auth.guard";
 import { BlogComponent } from "./component/blog/blog.component";
 import { EditBlogComponent } from "./component/blog/edit-blog/edit-blog.component";
+import { DeleteBlogComponent } from "./component/blog/delete-blog/delete-blog.component";
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -18,7 +19,8 @@ const appRoutes: Routes = [
   { path: 'register', component: RegisterComponent, canActivate: [NotAuthGuard] },
   { path: 'login', component: LoginComponent, canActivate: [NotAuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'edit-blog/:id', component: EditBlogComponent, canActivate: [AuthGuard]}
+  { path: 'edit-blog/:id', component: EditBlogComponent, canActivate: [AuthGuard]},
+  { path: 'delete-blog/:id', component: DeleteBlogComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

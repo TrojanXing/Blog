@@ -17,6 +17,7 @@ import { ProfileComponent } from "./component/profile/profile.component";
 import { FlashMessagesModule } from "angular2-flash-messages";
 import { BlogComponent } from "./component/blog/blog.component";
 import { EditBlogComponent } from "./component/blog/edit-blog/edit-blog.component";
+import { DeleteBlogComponent } from "./component/blog/delete-blog/delete-blog.component";
 // Service
 import { AuthService } from "./service/auth.service";
 import { AuthGuard } from "./guards/auth.guard";
@@ -34,7 +35,8 @@ import { BlogService } from "./service/blog.service";
     FooterComponent,
     ProfileComponent,
     BlogComponent,
-    EditBlogComponent
+    EditBlogComponent,
+    DeleteBlogComponent
   ],
   imports: [
     BrowserModule,
