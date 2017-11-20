@@ -94,12 +94,11 @@ export class LoginComponent implements OnInit {
         this.messageClass = 'alert alert-success';
         this.message = data['message'];
         this.authService.storeUserData(data['token'], data['user']);
-        var that = this;
-        setTimeout(function () {
-          if (that.previousUrl) {
-            that.router.navigate([that.previousUrl]);
+        setTimeout( () => {
+          if (this.previousUrl) {
+            this.router.navigate([this.previousUrl]);
           } else {
-            that.router.navigate(['/dashboard']);
+            this.router.navigate(['/dashboard']);
           }
         }, 2000);
       }

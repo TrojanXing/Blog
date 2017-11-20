@@ -134,7 +134,6 @@ export class RegisterComponent implements OnInit {
       password: this.form.get('password').value,
     };
     this.authService.registerUser(user).subscribe(data => {
-      // console.log(data);
       if(!data['success']) {
         this.messageClass = 'alert alert-danger';
         this.message = data['message'];
@@ -143,7 +142,7 @@ export class RegisterComponent implements OnInit {
       } else {
         this.messageClass = 'alert alert-success';
         this.message = data['message'];
-        setTimeout(function () {
+        setTimeout( () => {
           this.router.navigate( ['/login']);
         }, 2000);
       }
