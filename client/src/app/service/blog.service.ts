@@ -50,7 +50,6 @@ export class BlogService {
 
   likeBlog(id) {
     this.createAuthHeader();
-    console.log(this.httpOptions);
     let body = {
       _id: id
     };

@@ -1,9 +1,12 @@
-<h2 class="page-header">
-  Profile Page
-</h2>
-<hr>
-
-<ul class="list-group">
-  <li class="list-group-item">Username: {{ username }}</li>
-  <li class="list-group-item">Email: {{ email }}</li>
-</ul>
+<div class="container" >
+  <h2 class="page-header">
+    Profile Page
+  </h2>
+  <hr>
+  <table class="table table-responsive table-hover table-bordered col-md-10 mx-auto" >
+    <tbody>
+      <tr><th scope="row" width="40%" class="firstCol">Username</th><td width="60%">{{ username }}</td></tr>
+      <tr><th scope="row">Email</th><td>{{ email }}</td></tr>
+    </tbody>
+  </table>
+</div>

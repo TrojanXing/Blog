@@ -1,3 +1,7 @@
-body {
-  background: none;
+table {
+  width: 400px;
+}
+
+table .firstCol {
+  width: 200px;
 }
