@@ -313,4 +313,53 @@ router.put('/dislikeBlog', function (req, res) {
   }
 });
 
+/**
+ * Make a comment for post
+ */
+router.post('/comment', function (req, res) {
+  if (!req.body.comment) {
+    res.json({ success: false, message: 'No comment submitted' });
+  } else {
+    if (!req.body.id) {
+      res.json({ success: false, message: 'No id submitted' });
+    } else {
+      Blog.findOne({ _id: req.body.id }, function (err, blog) {
+        if (err) {
+          res.json({ success: false, message: 'Not a valid blog id' });
+        } else {
+          if (!blog) {
+            res.json({ success: false, message: 'Blog not found' });
+          } else {
+            User.findOne({ _id: req.decoded.userId }, function (err, user) {
+              if (err) {
+                res.json({ success: false, message: err.message });
+              } else {
+                if (!user) {
+                  res.json({ success: false, message: 'User not found' });
+                } else {
+                  let comment = {
+                    comment: req.body.comment,
+                    commentor: user.username
+                  };
+                  console.log(comment);
+                  blog.comments.push(comment);
+                  console.log(blog);
+                  console.log(blog.comments);
+                  blog.save(function (err) {
+                    if (err) {
+                      res.json({ success: false, message: err.message });
+                    } else {
+                      res.json({ success: true, message: 'Comment success' });
+                    }
+                  });
+                }
+              }
+            })
+          }
+        }
+      })
+    }
+  }
+});
+
 module.exports = router;

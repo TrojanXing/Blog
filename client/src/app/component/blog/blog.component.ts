@@ -21,6 +21,9 @@ export class BlogComponent implements OnInit {
   blogPosts;
   deleteTarget;
   tooltipMessage;
+  newComment = [];
+  commentForm;
+  enabledComment = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,6 +31,7 @@ export class BlogComponent implements OnInit {
     private blogService: BlogService,
   ) {
     this.createNewBlog();
+    this.createCommentForm();
   }
 
   createNewBlog() {
@@ -71,7 +75,6 @@ export class BlogComponent implements OnInit {
       return { 'titleValidator': true };
     }
   }
-
 
   /**
    * Create a new blog
@@ -169,13 +172,6 @@ export class BlogComponent implements OnInit {
   }
 
   /**
-   * Create a comment
-   */
-  draftComment() {
-
-  }
-
-  /**
    * like and dislike a blog
    */
   likeBlog(id) {
@@ -183,12 +179,12 @@ export class BlogComponent implements OnInit {
       this.getAllBlogs();
     });
   }
+
   dislikeBlog(id) {
     this.blogService.dislikeBlog(id).subscribe(data => {
       this.getAllBlogs();
     })
   }
-
   getTooltipMessage(blog, like) {
     let users = like? blog.likedBy : blog.dislikedBy;
     if (users.length === 0) {
@@ -201,6 +197,76 @@ export class BlogComponent implements OnInit {
       }
       this.tooltipMessage += like? 'etc like this post' : 'etc dislike this blog';
     }
+  }
+
+  /**
+   * Create comment form
+   */
+  createCommentForm() {
+    this.commentForm = this.formBuilder.group({
+      comment: ['', Validators.compose([
+        Validators.maxLength(100),
+        Validators.minLength(1),
+        Validators.required
+      ])]
+    })
+  }
+
+  /**
+   * Enable and disable comment form
+   */
+  enableCommentForm() {
+    this.commentForm.controls['comment'].enable();
+  }
+  disableCommentForm() {
+    this.commentForm.controls['comment'].disable();
+  }
+
+  /**
+   * Create a comment
+   */
+  draftComment(id) {
+    this.newComment = [];
+    this.newComment.push(id);
+  }
+  /**
+   * Post comment
+   */
+  postComment(id) {
+    this.processing = true;
+    this.disableCommentForm();
+    this.blogService.postComment(id, this.commentForm.get('comment').value).subscribe(data => {
+      if (!data['success']) {
+        console.log(data['message']);
+        this.processing = false;
+        this.enableCommentForm();
+      } else {
+        this.getAllBlogs();
+        const ind = this.newComment.indexOf(id);
+        this.newComment.splice(ind, 1);
+        this.enableCommentForm();
+        this.processing = false;
+        if (this.enabledComment.indexOf(id) === -1) {
+          this.expand(id);
+        }
+      }
+    });
+  }
+
+  cancelComment(id) {
+    const ind = this.newComment.indexOf(id);
+    this.newComment.splice(ind,1);
+    this.commentForm.reset();
+    this.enableCommentForm();
+    this.processing = false;
+  }
+
+  expand(id) {
+    this.enabledComment.push(id);
+  }
+  collapse(id) {
+    const ind = this.enabledComment.indexOf(id);
+    this.enabledComment.splice(ind, 1);
   }
 
   ngOnInit() {

@@ -1,42 +1,43 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const config = require('./config/database');
+// const config = require('./config/database');
 const path = require('path');
 const auth = require('./routes/authentication');
 const blog = require('./routes/blog');
-const bodyParser = require('body-parser');
-const cors = require('cors');
 
-const port = process.env.PORT || 3000;
-console.log(port);
+const config = require(('./config/config'));
 
+/**
+ * Set up database
+ */
 mongoose.Promise = global.Promise;
 mongoose.connect(config.uri, function(err) {
   if(err) {
     console.log('CANNOT connect to database: ', err);
   } else {
-    console.log('Connected to database: ' + config.db);
+    console.log('Connected to database: ' + config.uri);
   }
 });
 
-// Middleware
-app.use(cors({
-  origin: 'http://localhost:4200' //dev server
-}));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-//Provide access to client
+/**
+ * Set up global middleware
+ */
+require('./middleware/middleware')(app);
+
+/**
+ * Set up server
+ */
 app.use(express.static(__dirname + '/public'));
 app.use('/auth', auth);
 app.use('/blog', blog);
-
-
-
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname + '/public/index.html'));
 });
 
-app.listen(port, function() {
-  console.log('Listening to port ' + port);
+/**
+ * Set up port
+ */
+app.listen(config.port, function() {
+  console.log('Listening to port ' + config.port);
 });

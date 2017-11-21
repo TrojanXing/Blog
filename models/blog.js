@@ -46,10 +46,10 @@ let bodyValidators = [
 
 // Comment validator
 function commentLengthChecker(comment) {
-  if (!comment[0]) {
+  if (!comment) {
     return false;
   } else {
-    return comment[0].length > 1 && comment[0].length < 100;
+    return comment.length > 1 && comment.length < 200;
   }
 }
 
@@ -57,7 +57,7 @@ function commentLengthChecker(comment) {
 let commentValidators = [
   {
     validator: commentLengthChecker,
-    message: 'Comment may not exceed 100 characters'
+    message: 'Comment may not exceed 200 characters'
   }
 ];
 
@@ -72,6 +72,7 @@ const blogSchema = new Schema({
   dislikes: { type: Number, default: 0 },
   dislikedBy: { type: Array },
   comments: [{
+    _id: false,
     comment: { type: String, validate: commentValidators },
     commentor: { type: String },
 

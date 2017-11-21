@@ -95,13 +95,33 @@
       <ul class="list-group">
         <li class="list-group-item">
           <button type="button" name="button" class="btn btn-sm btn-outline-info"
-                  (click)="draftComment()">Post Comment</button>
+                  (click)="draftComment(blog._id)" [disabled]="newComment.indexOf(blog._id) > -1">Post Comment</button>
           <br>
-          <!--<form action="">-->
-          <!--<textarea name="comment" id="" cols="30" rows="10" class="form-control"></textarea>-->
-          <!--<button class="form-control" class="btn btn-info btn-sm">Submit Post</button>-->
-          <!--<button class="form-control" class="btn btn-danger btn-sm">Cancel </button>-->
-          <!--</form>-->
+          <div *ngIf="newComment.indexOf(blog._id) > -1">
+            <form [formGroup]="commentForm" (submit)="postComment(blog._id)">
+              <textarea name="comment" id="" cols="30" rows="5" class="form-control mb-1 mt-1" formControlName="comment"></textarea>
+              <div>
+                <ul ngClass="">
+                  <li *ngIf="commentForm.controls.comment.errors?.required && commentForm.controls.comment.dirty">This filed is required</li>
+                  <li *ngIf="(commentForm.controls.comment.errors?.maxlength || commentForm.controls.comment.errors?.minlength)">The comment contains at least 1 character and at most 200 characters</li>
+                </ul>
+              </div>
+              <button [disabled]="!commentForm.valid" class="form-control btn btn-info btn-sm" (click)="postComment(blog._id)" type="submit">Submit Post</button>
+              <button [disabled]="processing" (click)="cancelComment(blog._id)" class="form-control btn btn-danger btn-sm">Cancel </button>
+            </form>
+          </div>
+        </li>
+        <li *ngIf="enabledComment.indexOf(blog._id) === -1 &&
+                     blog.comments.length > 0">
+          <span (click)="expand(blog._id)">Show Comments</span>
+        </li>
+        <li *ngIf="enabledComment.indexOf(blog._id) > -1">
+          <span (click)="collapse(blog._id)">Hide Comments</span>
+        </li>
+        <li *ngIf="enabledComment.indexOf(blog._id) > -1" class="list-group-item">
+          <div *ngFor="let comment of blog.comments">
+            <strong>{{ comment.commentor }}:&nbsp; </strong>{{ comment.comment }}
+          </div>
         </li>
       </ul><!-- comment -->
 

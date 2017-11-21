@@ -64,4 +64,12 @@ export class BlogService {
     return this.http.put(this.domain + '/blog/dislikeBlog/', body, this.httpOptions);
   }
 
+  postComment(id, comment) {
+    this.createAuthHeader();
+    let body = {
+      id: id,
+      comment: comment
+    };
+    return this.http.post(this.domain + '/blog/comment', body, this.httpOptions);
+  }
 }

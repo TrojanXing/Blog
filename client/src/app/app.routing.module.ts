@@ -10,17 +10,19 @@ import { NotAuthGuard } from "./guards/not.auth.guard";
 import { BlogComponent } from "./component/blog/blog.component";
 import { EditBlogComponent } from "./component/blog/edit-blog/edit-blog.component";
 import { DeleteBlogComponent } from "./component/blog/delete-blog/delete-blog.component";
+import { ConnectMeComponent } from "./component/connect-me/connect-me.component";
 
 const appRoutes: Routes = [
-  { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
+  { path: 'connect', component: ConnectMeComponent },
   { path: 'blog', component: BlogComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'register', component: RegisterComponent, canActivate: [NotAuthGuard] },
   { path: 'login', component: LoginComponent, canActivate: [NotAuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'edit-blog/:id', component: EditBlogComponent, canActivate: [AuthGuard]},
-  { path: 'delete-blog/:id', component: DeleteBlogComponent, canActivate: [AuthGuard]}
+  { path: 'delete-blog/:id', component: DeleteBlogComponent, canActivate: [AuthGuard]},
+  { path: '**', component: HomeComponent }
 ];
 
 @NgModule({
