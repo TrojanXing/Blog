@@ -246,6 +246,7 @@ export class BlogComponent implements OnInit {
         this.newComment.splice(ind, 1);
         this.enableCommentForm();
         this.processing = false;
+        this.commentForm.reset();
         if (this.enabledComment.indexOf(id) === -1) {
           this.expand(id);
         }
