@@ -2,7 +2,7 @@ const User = require('../models/user');
 const mongoose = require('mongoose');
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
-const config = require('../config/database');
+const config = require('../config/config');
 
 mongoose.Promise = global.Promise;
 
