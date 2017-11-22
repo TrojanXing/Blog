@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { ReactiveFormsModule} from "@angular/forms";
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from "@angular/forms";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // Component
 import { NavbarComponent} from "./component/navbar/navbar.component";
 import { RouterModule, Routes } from "@angular/router";
@@ -47,7 +48,8 @@ import { BlogService } from "./service/blog.service";
     RouterModule,
     HttpClientModule,
     FlashMessagesModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule
   ],
   providers: [
     AuthService,
