@@ -11,10 +11,21 @@ import { BlogComponent } from "./component/blog/blog.component";
 import { EditBlogComponent } from "./component/blog/edit-blog/edit-blog.component";
 import { DeleteBlogComponent } from "./component/blog/delete-blog/delete-blog.component";
 import { ConnectMeComponent } from "./component/connect-me/connect-me.component";
+import { ContactInfoComponent } from "./component/connect-me/contact-info/contact-info.component";
+import { ReportBugsComponent } from "./component/connect-me/report-bugs/report-bugs.component";
+import { ContributeComponent } from "./component/connect-me/contribute/contribute.component";
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
-  { path: 'connect', component: ConnectMeComponent },
+  { path: 'connect', component: ConnectMeComponent,
+    children: [
+      { path: '', component: ContactInfoComponent },
+      { path: 'contact-info', component: ContactInfoComponent },
+      { path: 'report-bugs', component: ReportBugsComponent },
+      { path: 'contribute', component: ContributeComponent },
+      { path: '**', component: ContactInfoComponent }
+    ]
+   },
   { path: 'blog', component: BlogComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'register', component: RegisterComponent, canActivate: [NotAuthGuard] },

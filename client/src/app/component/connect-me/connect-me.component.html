@@ -1,73 +1,22 @@
 <div class="container">
   <h1 class="page-header">ConnectMe</h1>
   <hr>
-  <!-- Message -->
-  <div class="show-hide-message" *ngIf="message">
-    <div [ngClass]="messageClass">
-      {{ message }}
-    </div>
-  </div>
+
   <div class="container">
     <ul class="nav nav-pills">
       <li class="nav-item">
-        <div class="nav-link" [ngClass]="{'active': showingElement === 1}" (click)="show(1)">Connect Me</div>
+        <a class="nav-link" routerLink='contact-info' [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">Connect Me</a>
       </li>
       <li class="nav-item">
-        <div class="nav-link" [ngClass]="{'active': showingElement === 2}" (click)="show(2)">Report Bugs</div>
+        <a class="nav-link" routerLink='report-bugs' [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">Report Bugs</a>
       </li>
       <li class="nav-item">
-        <div class="nav-link" [ngClass]="{'active': showingElement === 3}" (click)="show(3)">Contribute</div>
+        <a class="nav-link" routerLink='contribute' [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">Contribute</a>
       </li>
     </ul>
 
-    <div class="contactMe mt-4" *ngIf="showingElement === 1">
-      <div class="list-group col-md-10">
-        <div class="list-group-item list-group-item-action"><i class="material-icons">email</i>&nbsp;&nbsp;Email:&nbsp;&nbsp; lixing.usc@gmail.com</div>
-        <div class="list-group-item list-group-item-action"><i class="material-icons">phone</i>&nbsp;&nbsp;Telephone:&nbsp;&nbsp; 213-4470-592</div>
-        <div class="list-group-item list-group-item-action"><i class="material-icons">question_answer</i>&nbsp;&nbsp;WeChat:&nbsp;&nbsp; lixing5719</div>
-        <a href="https://github.com/TrojanXing" class="list-group-item list-group-item-action"><i class="material-icons">code</i>&nbsp;&nbsp;Github</a>
-        <a href="https://www.linkedin.com/in/xingli-usc/" class="list-group-item list-group-item-action"><i class="material-icons">work</i>&nbsp;&nbsp;Linkedin</a>
-      </div>
-    </div>
+    <router-outlet></router-outlet>
 
-    <div class="reportBugs mt-4" *ngIf="showingElement === 2">
-      <form [formGroup]="form" name="blogForm" (submit)="onBugsSubmit()">
-        <div class="form-group">
-          <label for="blogTitle">这么点bug就要把我批判一番</label>
-          <input type="title" class="form-control" id="blogTitle"
-                 placeholder="Title" formControlName="title"
-                 [ngClass]="{'is-valid': form.controls.title.valid,
-                       'is-invalid': form.controls.title.errors && form.controls.title.dirty}">
-          <ul [ngClass]="{'valid-feedback': form.controls.title.valid,
-                    'invalid-feedback': form.controls.title.errors && form.controls.title.dirty}">
-            <li *ngIf="form.controls.title.errors?.required && form.controls.title.dirty">This field is required</li>
-            <li *ngIf="(form.controls.title.errors?.minlength || form.controls.title.errors?.maxlength) && form.controls.title.dirty">Length between 5 and 50</li>
-            <li *ngIf="form.controls.title.errors?.titleValidator && form.controls.title.dirty">Bugs title should include only letters and number</li>
-            <li *ngIf="titleMessage">{{ titleMessage }}</li>
-          </ul>
-        </div>
-        <div class="form-group">
-          <label for="exampleTextarea">还说我的程序有bug，哼，你们另请高明吧</label>
-          <textarea class="form-control" id="exampleTextarea" rows="10" cols="50"
-                    formControlName="body"
-                    [ngClass]="{'is-valid': form.controls.body.valid,
-                       'is-invalid': form.controls.body.errors && form.controls.body.dirty}"></textarea>
-          <ul [ngClass]="{'valid-feedback': form.controls.body.valid,
-                    'invalid-feedback': form.controls.body.errors && form.controls.body.dirty}">
-            <li *ngIf="form.controls.body.errors?.required && form.controls.body.dirty">This field is required</li>
-            <li *ngIf="(form.controls.body.errors?.minlength || form.controls.body.errors?.maxlength) && form.controls.body.dirty">Length between 5 and 200</li>
-            <li *ngIf="bodyMessage">{{ bodyMessage }}</li>
-          </ul>
-        </div>
-        <button [disabled]="processing || !form.valid" type="submit" class="btn btn-primary" (click)="onBugsSubmit()">Submit</button>
-        <button [disabled]="processing" type="button" class="btn btn-secondary" (click)="goBack()">Cancel</button>
-      </form><!-- Bugs form -->
-    </div>
-
-    <div class="contribute mt-4 text-center" *ngIf="showingElement === 3">
-      <button class="btn btn-success btn-lg mt-6" id="contribute" (click)="toggleState()">Contribute</button>
-      <div class="oneSec" [@oneSecState]="oneSecState" >+1s</div>
-    </div>
   </div>
 
 

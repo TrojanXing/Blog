@@ -20,6 +20,9 @@ import { BlogComponent } from "./component/blog/blog.component";
 import { EditBlogComponent } from "./component/blog/edit-blog/edit-blog.component";
 import { DeleteBlogComponent } from "./component/blog/delete-blog/delete-blog.component";
 import { ConnectMeComponent } from "./component/connect-me/connect-me.component";
+import { ContactInfoComponent } from "./component/connect-me/contact-info/contact-info.component";
+import { ReportBugsComponent } from "./component/connect-me/report-bugs/report-bugs.component";
+import { ContributeComponent } from "./component/connect-me/contribute/contribute.component";
 // Service
 import { AuthService } from "./service/auth.service";
 import { AuthGuard } from "./guards/auth.guard";
@@ -39,7 +42,10 @@ import { BlogService } from "./service/blog.service";
     BlogComponent,
     EditBlogComponent,
     DeleteBlogComponent,
-    ConnectMeComponent
+    ConnectMeComponent,
+    ContactInfoComponent,
+    ReportBugsComponent,
+    ContributeComponent
   ],
   imports: [
     BrowserModule,
@@ -48,8 +54,8 @@ import { BlogService } from "./service/blog.service";
     RouterModule,
     HttpClientModule,
     FlashMessagesModule,
-    FormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule
   ],
   providers: [
     AuthService,
