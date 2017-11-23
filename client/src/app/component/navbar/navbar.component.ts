@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { AuthService } from "../../service/auth.service";
 import { Router } from "@angular/router";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { FlashMessagesService } from 'angular2-flash-messages';
 
 @Component({
@@ -11,11 +12,16 @@ import { FlashMessagesService } from 'angular2-flash-messages';
 })
 export class NavbarComponent implements OnInit {
 
+  form;
+
   constructor(
     public authService: AuthService,
     private router: Router,
-    private flashMessagesService: FlashMessagesService
-  ) { }
+    private flashMessagesService: FlashMessagesService,
+    private formBuilder: FormBuilder
+  ) {
+
+  }
 
   onLogoutClick() {
     this.authService.logout();
