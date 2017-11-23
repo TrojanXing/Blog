@@ -26,7 +26,7 @@ const appRoutes: Routes = [
       { path: '**', component: ContactInfoComponent }
     ]
    },
-  { path: 'blog', component: BlogComponent },
+  { path: 'blog', component: BlogComponent, canActivate: [AuthGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'register', component: RegisterComponent, canActivate: [NotAuthGuard] },
   { path: 'login', component: LoginComponent, canActivate: [NotAuthGuard] },
