@@ -8,6 +8,7 @@
     </div>
   </div>
 
+  <!-- Control button -->
   <div *ngIf="!newPost">
     <button type="button" class="btn btn-info blogBtn" (click)="newBlogForm()">New Post</button>
     <button [disabled]="loadingBlog" type="button" class="btn btn-secondary blogBtn" (click)="reloadBlog()">
@@ -15,6 +16,7 @@
     </button>
   </div>
 
+  <!-- New Blog form -->
   <form [formGroup]="form" name="blogForm" (submit)="onBlogSubmit()" *ngIf="newPost">
     <div class="form-group">
       <label for="blogTitle">Title</label>
@@ -47,7 +49,9 @@
     <button [disabled]="processing" type="button" class="btn btn-secondary" (click)="goBack()">Go Back</button>
   </form><!-- Blog form -->
 
+  <!-- Blog List -->
   <div *ngIf="!newPost">
+    <!-- Single Blog Item in Card -->
     <div class="card card-inverse card-info mt-3" *ngFor="let blog of blogPosts">
       <div class="card-header">
         {{ blog.title }}
@@ -70,16 +74,13 @@
         <!--Delete Button-->
         <button (click)="getDeleteTarget(blog)" data-toggle="modal" data-target="#deleteModal"
                 *ngIf="username === blog.createdBy" type="button" class="btn btn-sm btn-danger">Delete</button>
-        <!-- Like Dropdown -->
+        <!-- Like Button -->
           <button *ngIf="username !== blog.createdBy" [disabled]="blog.likedBy.indexOf(username) !== -1" (click)="likeBlog(blog._id)"
-                  class="btn btn-success btn-sm" type="button" id="likeDropdownButton"
+                  class="btn btn-success btn-sm" type="button"
                   (mouseover)="getTooltipMessage(blog, true)" data-toggle="tooltip" data-placement="bottom"
                   data-html="true" title="{{tooltipMessage}}">
             <i class="material-icons md-18">thumb_up</i>&nbsp;Likes:&nbsp;{{ blog.likes }}
           </button>
-          <!--<div class="dropdown-menu" aria-labelledby="likeDropdownButton" *ngIf="blog.likedBy[0]">-->
-            <!--<a class="dropdown-item" *ngFor="let likedBy of blog.likedBy" href="#">{{ likedBy }}</a>-->
-          <!--</div>-->
         <!-- Dislike dropdown -->
           <button *ngIf="username !== blog.createdBy" [disabled]="blog.dislikedBy.indexOf(username) !== -1" (click)="dislikeBlog(blog._id)"
                   class="btn btn-warning btn-sm" type="button" id="dislikeDropdownButton"  aria-expanded="false"
@@ -87,13 +88,12 @@
                   data-html="true" title="{{tooltipMessage}}">
             <i class="material-icons md-18">thumb_down</i>&nbsp;Disikes:&nbsp;{{ blog.dislikes }}
           </button>
-          <!--<div class="dropdown-menu" aria-labelledby="dislikeDropdownButton" *ngIf="blog.dislikedBy[0]">-->
-            <!--<a class="dropdown-item" href="#" *ngFor="let dislikedBy of blog.dislikedBy">{{ dislikedBy }}</a>-->
-          <!--</div>-->
       </div><!-- card footer -->
 
+      <!-- Comment  -->
       <ul class="list-group">
         <li class="list-group-item">
+          <!-- Control Button -->
           <button type="button" name="button" class="btn btn-sm btn-outline-info"
                   (click)="draftComment(blog._id)" [disabled]="newComment.indexOf(blog._id) > -1">Post Comment</button>
           <button *ngIf="enabledComment.indexOf(blog._id) === -1 &&
@@ -103,8 +103,9 @@
           <button *ngIf="enabledComment.indexOf(blog._id) > -1" class="btn btn-sm btn-outline-warning">
             <span (click)="collapse(blog._id)">Hide Comments</span>
           </button>
-
           <br>
+
+          <!-- Post a new comment -->
           <div *ngIf="newComment.indexOf(blog._id) > -1">
             <form [formGroup]="commentForm" (submit)="postComment(blog._id)">
               <textarea name="comment" id="" cols="30" rows="5" class="form-control mb-1 mt-1" formControlName="comment"
@@ -121,6 +122,7 @@
           </div>
         </li>
 
+        <!-- Show Comment -->
         <li *ngIf="enabledComment.indexOf(blog._id) > -1" class="list-group-item">
           <div *ngFor="let comment of blog.comments">
             <strong>{{ comment.commentor }}:&nbsp; </strong>{{ comment.comment }}
