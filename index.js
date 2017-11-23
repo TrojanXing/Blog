@@ -3,7 +3,7 @@ const app = express();
 const mongoose = require('mongoose');
 // const config = require('./config/database');
 const path = require('path');
-const auth = require('./routes/user/authentication');
+const auth = require('./routes/user/auth');
 const blog = require('./routes/blog/blog');
 
 const config = require(('./config/config'));
