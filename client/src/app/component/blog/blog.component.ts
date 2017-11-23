@@ -149,6 +149,7 @@ export class BlogComponent implements OnInit {
     this.deleteTarget = blog;
   }
   deleteBlog() {
+    console.log()
     if (this.deleteTarget) {
       this.processing = true;
       this.blogService.deleteBlog(this.deleteTarget._id).subscribe(data => {

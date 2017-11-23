@@ -37,11 +37,12 @@ router.get('/allUsers', (req, res) => {
     }
   });
 });
+
 /**
  * Middleware
  * Grab token, all operation need auth blow this
  */
-// router.use((req, res, next) => verifyToken(req, res, next));
+router.use((req, res, next) => verifyToken(req, res, next));
 
 /**
  * Get user profile
