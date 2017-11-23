@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
 const config = require('../../config/config');
-const verifyToken = require('../routesMiddleware').verifyToken;
 
 mongoose.Promise = global.Promise;
 
@@ -113,30 +112,6 @@ router.post('/login', (req, res) => {
       }
     });
   }
-});
-
-/**
- * Middleware
- * Grab token, all operation need auth blow this
- */
-router.use((req, res, next) => verifyToken(req, res, next));
-
-/**
- * Get user profile
- */
-
-router.get('/profile', (req, res) => {
-  User.findOne({ _id: req.decoded.userId}).select('username email').exec((err, user) => {
-    if (err) {
-      res.json({ success: false, message: err});
-    } else {
-      if (!user) {
-        res.json({ success: false, message: 'User not found' });
-      } else {
-        res.json({ success: true, user: user});
-      }
-    }
-  })
 });
 
 module.exports = router;

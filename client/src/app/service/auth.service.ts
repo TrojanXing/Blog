@@ -64,7 +64,7 @@ export class AuthService {
 
   getProfile() {
     this.createAuthHeader();
-    return this.http.get(this.domain + '/auth/profile', this.httpOptions);
+    return this.http.get(this.domain + '/user/profile', this.httpOptions);
   }
 
   loggedIn() {

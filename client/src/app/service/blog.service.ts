@@ -35,7 +35,7 @@ export class BlogService {
 
   getSingleBlog(id) {
     this.createAuthHeader();
-    return this.http.get(this.domain + '/blog/singleBlog/' + id, this.httpOptions);
+    return this.http.get(this.domain + '/blog/singleBlog' + id, this.httpOptions);
   }
 
   editBlog(blog) {
@@ -45,7 +45,7 @@ export class BlogService {
 
   deleteBlog(id) {
     this.createAuthHeader();
-    return this.http.delete(this.domain + '/blog/deleteBlog/' + id, this.httpOptions);
+    return this.http.delete(this.domain + '/blog/deleteBlog' + id, this.httpOptions);
   }
 
   likeBlog(id) {
@@ -53,7 +53,7 @@ export class BlogService {
     let body = {
       _id: id
     };
-    return this.http.put(this.domain + '/blog/likeBlog/', body, this.httpOptions);
+    return this.http.put(this.domain + '/blog/likeBlog', body, this.httpOptions);
   }
 
   dislikeBlog(id) {
@@ -61,7 +61,7 @@ export class BlogService {
     let body = {
       _id: id
     };
-    return this.http.put(this.domain + '/blog/dislikeBlog/', body, this.httpOptions);
+    return this.http.put(this.domain + '/blog/dislikeBlog', body, this.httpOptions);
   }
 
   postComment(id, comment) {
