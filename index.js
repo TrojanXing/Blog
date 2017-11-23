@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 const auth = require('./routes/user/auth');
 const blog = require('./routes/blog/blog');
+const user = require('./routes/user/user');
 
 const config = require(('./config/config'));
 
@@ -31,6 +32,7 @@ require('./middleware/middleware')(app);
 app.use(express.static(__dirname + '/public'));
 app.use('/auth', auth);
 app.use('/blog', blog);
+app.use('/user', user);
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname + '/public/index.html'));
 });

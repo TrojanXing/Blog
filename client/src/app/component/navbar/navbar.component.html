@@ -26,7 +26,10 @@
       </li>
     </ul>
     <ul class="navbar-nav my-2 my-lg-0">
-
+      <form class="form-inline my-2 my-lg-0 mr-2">
+        <input class="form-control mr-sm-2" type="text" placeholder="Search friends">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
       <li class="nav-item mr-2" *ngIf="!authService.loggedIn()">
         <button routerLink="/register" class="btn btn-outline-primary my-1" role="button">Sign Up</button>
       </li>
