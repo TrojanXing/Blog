@@ -1,9 +1,8 @@
-const Blog = require('../models/blog');
-const User = require('../models/user');
+const Blog = require('../../models/blog');
+const User = require('../../models/user');
 const mongoose = require('mongoose');
 const router = require('express').Router();
-const jwt = require('jsonwebtoken');
-const config = require('../config/config');
+const verifyToken = require('../routesMiddleware').verifyToken;
 
 mongoose.Promise = global.Promise;
 
@@ -11,26 +10,12 @@ mongoose.Promise = global.Promise;
  * Middleware
  * Grab token, all operations needing auth are blow this
  */
-router.use(function (req, res, next) {
-  const token = req.headers['auth'];
-  if (!token) {
-    res.json({ success: false, message: 'No token provided' })
-  } else {
-    jwt.verify(token, config.secret, function (err, decoded) {
-      if (err) {
-        res.json({ success: false, message: 'Token invalid: ' + err })
-      } else {
-        req.decoded = decoded;
-        next();
-      }
-    })
-  }
-});
+router.use((req, res, next) => verifyToken(req, res, next));
 
 /**
  * Post a new blog
  */
-router.post('/newBlog', function(req, res) {
+router.post('/newBlog', (req, res) => {
   if (!req.body.title) {
     res.json({ success: false, message: 'Blog title is required'});
   } else if (!req.body.body) {
@@ -72,7 +57,7 @@ router.post('/newBlog', function(req, res) {
 
 
 router.get('/allBlogs', function (req, res) {
-  Blog.find({}, function (err, blogs) {
+  Blog.find({}, (err, blogs) => {
     if (err) {
       res.json({ success: false, message: err })
     } else {
@@ -88,18 +73,18 @@ router.get('/allBlogs', function (req, res) {
 /**
  * Get one single blog
  */
-router.get('/singleBlog/:id', function (req, res) {
+router.get('/singleBlog/:id', (req, res) => {
   if (!req.params.id) {
     res.json({ success: false, message: 'No blog id provided' })
   } else {
-    Blog.findOne({ _id: req.params.id}, function (err, blog) {
+    Blog.findOne({ _id: req.params.id}, (err, blog) => {
       if (err) {
         res.json({ success: false, message: 'Cannot find any blog with given id' + req.params.id });
       } else {
         if (!blog) {
           res.json({ success: false, message: 'Blog Not Found'});
         } else {
-          User.findOne({ _id: req.decoded.userId }, function(err, user) {
+          User.findOne({ _id: req.decoded.userId }, (err, user) => {
             if (err) {
               res.json({ success: false, message: err });
             } else {
@@ -123,18 +108,18 @@ router.get('/singleBlog/:id', function (req, res) {
 /**
  * Update a blog
  */
-router.put('/updateBlog', function (req, res) {
+router.put('/updateBlog', (req, res) => {
   if (!req.body._id) {
     res.json({ success: false, message: 'No blog id provided' })
   } else {
-    Blog.findOne({ _id: req.body._id }, function (err, blog) {
+    Blog.findOne({ _id: req.body._id }, (err, blog) => {
       if (err) {
         res.json({ success: false, message: 'Not a valid id' });
       } else {
         if (!blog) {
           res.json({ success: false, message: 'Cannot find any blog with given id' + req.body._id});
         } else {
-          User.findOne({ _id: req.decoded.userId }, function(err, user) {
+          User.findOne({ _id: req.decoded.userId }, (err, user) => {
             if (err) {
               res.json({ success: false, message: err });
             } else {
@@ -147,7 +132,7 @@ router.put('/updateBlog', function (req, res) {
                 } else {
                   blog.title = req.body.title;
                   blog.body = req.body.body;
-                  blog.save(function (err) {
+                  blog.save((err) => {
                     if (err) {
                       res.json({ success: false, message: err.message });
                     } else {
@@ -167,7 +152,7 @@ router.put('/updateBlog', function (req, res) {
 /**
  * Delete a blog
  */
-router.delete('/deleteBlog/:id', function (req, res) {
+router.delete('/deleteBlog/:id', (req, res) => {
   if (!req.params.id) {
     res.json({ success: false, message: 'No blog id provided' });
   } else {
@@ -178,7 +163,7 @@ router.delete('/deleteBlog/:id', function (req, res) {
         if (!blog) {
           res.json({ success: false, message: 'Cannot find blog with given id' });
         } else {
-          User.findOne({ _id:req.decoded.userId }, function (err, user) {
+          User.findOne({ _id:req.decoded.userId }, (err, user) => {
             if (err) {
               res.json({ success: false, message: 'Not a valid id' });
             } else {
@@ -210,18 +195,18 @@ router.delete('/deleteBlog/:id', function (req, res) {
 /**
  * Like a ppost
  */
-router.put('/likeBlog', function (req, res) {
+router.put('/likeBlog', (req, res) => {
   if (!req.body._id) {
     res.json({ success: false, message: 'No blog id provided' })
   } else {
-    Blog.findOne({ _id: req.body._id }, function (err, blog) {
+    Blog.findOne({ _id: req.body._id }, (err, blog) => {
       if (err) {
         res.json({ success: false, message: 'Not a valid id' });
       } else {
         if (!blog) {
           res.json({ success: false, message: 'Cannot find any blog with given id' + req.body._id});
         } else {
-          User.findOne({ _id: req.decoded.userId }, function(err, user) {
+          User.findOne({ _id: req.decoded.userId }, (err, user) => {
             if (err) {
               res.json({ success: false, message: err.message });
             } else {
@@ -267,14 +252,14 @@ router.put('/dislikeBlog', function (req, res) {
   if (!req.body._id) {
     res.json({ success: false, message: 'No blog id provided' })
   } else {
-    Blog.findOne({ _id: req.body._id }, function (err, blog) {
+    Blog.findOne({ _id: req.body._id }, (err, blog) => {
       if (err) {
         res.json({ success: false, message: 'Not a valid id' });
       } else {
         if (!blog) {
           res.json({ success: false, message: 'Cannot find any blog with given id' + req.body._id});
         } else {
-          User.findOne({ _id: req.decoded.userId }, function(err, user) {
+          User.findOne({ _id: req.decoded.userId }, (err, user) => {
             if (err) {
               res.json({ success: false, message: err.message });
             } else {
@@ -323,14 +308,14 @@ router.post('/comment', function (req, res) {
     if (!req.body.id) {
       res.json({ success: false, message: 'No id submitted' });
     } else {
-      Blog.findOne({ _id: req.body.id }, function (err, blog) {
+      Blog.findOne({ _id: req.body.id }, (err, blog) => {
         if (err) {
           res.json({ success: false, message: 'Not a valid blog id' });
         } else {
           if (!blog) {
             res.json({ success: false, message: 'Blog not found' });
           } else {
-            User.findOne({ _id: req.decoded.userId }, function (err, user) {
+            User.findOne({ _id: req.decoded.userId }, (err, user) => {
               if (err) {
                 res.json({ success: false, message: err.message });
               } else {
@@ -345,7 +330,7 @@ router.post('/comment', function (req, res) {
                   blog.comments.push(comment);
                   console.log(blog);
                   console.log(blog.comments);
-                  blog.save(function (err) {
+                  blog.save((err) => {
                     if (err) {
                       res.json({ success: false, message: err.message });
                     } else {

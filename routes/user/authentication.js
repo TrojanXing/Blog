@@ -1,12 +1,13 @@
-const User = require('../models/user');
+const User = require('../../models/user');
 const mongoose = require('mongoose');
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
-const config = require('../config/config');
+const config = require('../../config/config');
+const verifyToken = require('../routesMiddleware').verifyToken;
 
 mongoose.Promise = global.Promise;
 
-router.post('/register', function (req, res) {
+router.post('/register', (req, res) => {
   console.log(req.body.email);
   if (!req.body.email) {
     res.json({ success: false, message: 'You must provide an e-mail'});
@@ -20,7 +21,7 @@ router.post('/register', function (req, res) {
       username: req.body.username.toLowerCase(),
       password: req.body.password
     });
-    user.save(function(err) {
+    user.save((err) => {
       if(err) {
         if (err.code === 11000) {
           res.json({ success: false, message: 'User or email already exist'});
@@ -49,11 +50,11 @@ router.post('/register', function (req, res) {
   }
 });
 
-router.get('/checkemail/:email', function(req, res) {
+router.get('/checkemail/:email', (req, res) => {
   if(!req.params.email) {
     res.json({ success: false, message: 'Email was not provided' });
   } else {
-    User.findOne({email: req.params.email}, function(err, user) {
+    User.findOne({email: req.params.email}, (err, user) => {
       if (err) {
         res.json({ success: false, message: err });
 
@@ -68,12 +69,12 @@ router.get('/checkemail/:email', function(req, res) {
   }
 });
 
-router.get('/checkusername/:username', function(req, res) {
+router.get('/checkusername/:username', (req, res) => {
   // console.log('get request');
   if(!req.params.username) {
     res.json({ success: false, message: 'Username was not provided' });
   } else {
-    User.findOne({username: req.params.username}, function(err, user) {
+    User.findOne({username: req.params.username}, (err, user) => {
       if (err) {
         res.json({ success: false, message: err });
 
@@ -88,13 +89,13 @@ router.get('/checkusername/:username', function(req, res) {
   }
 });
 
-router.post('/login', function(req, res) {
+router.post('/login', (req, res) => {
   if (!req.body.username || !req.body.password) {
     console.log(req.body.username);
     console.log(req.body.password);
     res.json({ success: false, message: 'No username or password is provided'})
   } else {
-    User.findOne({username: req.body.username}, function (err, user) {
+    User.findOne({username: req.body.username}, (err, user) => {
       if (err) {
         res.json({ success: false, message:err });
       } else {
@@ -118,28 +119,14 @@ router.post('/login', function(req, res) {
  * Middleware
  * Grab token, all operation need auth blow this
  */
-router.use(function (req, res, next) {
-  const token = req.headers['auth'];
-  if (!token) {
-    res.json({ success: false, message: 'No token provided' })
-  } else {
-    jwt.verify(token, config.secret, function (err, decoded) {
-      if (err) {
-        res.json({ success: false, message: 'Token invalid: ' + err })
-      } else {
-        req.decoded = decoded;
-        next();
-      }
-    })
-  }
-});
+router.use((req, res, next) => verifyToken(req, res, next));
 
 /**
  * Get user profile
  */
 
-router.get('/profile', function (req, res) {
-  User.findOne({ _id: req.decoded.userId}).select('username email').exec(function (err, user) {
+router.get('/profile', (req, res) => {
+  User.findOne({ _id: req.decoded.userId}).select('username email').exec((err, user) => {
     if (err) {
       res.json({ success: false, message: err});
     } else {
