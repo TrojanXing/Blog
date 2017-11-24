@@ -170,8 +170,8 @@ router.delete('/deleteBlog/:id', (req, res) => {
               if (!user) {
                 res.json({ success: false, message: 'Cannot find blog with given id' });
               } else {
-                console.log(user.username + "||" + blog.createdBy);
-                console.log(blog);
+                // console.log(user.username + "||" + blog.createdBy);
+                // console.log(blog);
                 if (user.username !== blog['createdBy']) {
                   res.json({ success: false, message: 'You have no access to delete this blog' });
                 } else {
@@ -326,10 +326,10 @@ router.post('/comment', function (req, res) {
                     comment: req.body.comment,
                     commentor: user.username
                   };
-                  console.log(comment);
+                  // console.log(comment);
                   blog.comments.push(comment);
-                  console.log(blog);
-                  console.log(blog.comments);
+                  // console.log(blog);
+                  // console.log(blog.comments);
                   blog.save((err) => {
                     if (err) {
                       res.json({ success: false, message: err.message });
