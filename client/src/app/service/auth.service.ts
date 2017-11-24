@@ -49,6 +49,10 @@ export class AuthService {
     return this.http.post(this.domain + '/auth/login', user);
   }
 
+  searchUser(username){
+    return this.http.get(this.domain + '/user/publicProfile/' + username);
+  }
+
   logout() {
     this.authToken = null;
     this.user = null;

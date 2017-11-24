@@ -2,6 +2,12 @@ const User = require('../../models/user');
 const router = require('express').Router();
 const verifyToken = require('../routesMiddleware').verifyToken;
 
+/**
+ * Middleware
+ * Grab token, all operation need auth blow this
+ */
+router.use((req, res, next) => verifyToken(req, res, next));
+
 router.get('/publicProfile/:username', (req, res) => {
   if(!req.params.username) {
     res.json({ success: false, message: 'username is not provided'});
@@ -37,12 +43,6 @@ router.get('/allUsers', (req, res) => {
     }
   });
 });
-
-/**
- * Middleware
- * Grab token, all operation need auth blow this
- */
-router.use((req, res, next) => verifyToken(req, res, next));
 
 /**
  * Get user profile
