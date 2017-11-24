@@ -19,11 +19,6 @@ export class BlogComponent implements OnInit {
   processing = false;
   username;
   blogPosts;
-  deleteTarget;
-  tooltipMessage;
-  newComment = [];
-  commentForm;
-  enabledComment = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -31,7 +26,6 @@ export class BlogComponent implements OnInit {
     private blogService: BlogService,
   ) {
     this.createNewBlog();
-    this.createCommentForm();
   }
 
   createNewBlog() {
@@ -139,137 +133,10 @@ export class BlogComponent implements OnInit {
     this.getAllBlogs();
     setTimeout(() => {
       this.loadingBlog = false;
-    }, 200);
+    }, 2000);
   }
 
-  /**
-   * Delete a Blog
-   */
-  getDeleteTarget(blog) {
-    this.deleteTarget = blog;
-  }
-  deleteBlog() {
-    console.log()
-    if (this.deleteTarget) {
-      this.processing = true;
-      this.blogService.deleteBlog(this.deleteTarget._id).subscribe(data => {
-        if (!data['success']) {
-          this.messageClass = 'alert alert-danger';
-          this.message = data['message'];
-          this.processing = false;
-        } else {
-          this.messageClass = 'alert alert-success';
-          this.message = data['message'];
-          this.getAllBlogs();
-        }
-        setTimeout(() => {
-          this.message = false;
-          this.processing = false;
-        }, 1000);
-      });
-      this.deleteTarget = null;
-    }
 
-  }
-
-  /**
-   * like and dislike a blog
-   */
-  likeBlog(id) {
-    this.blogService.likeBlog(id).subscribe(data => {
-      this.getAllBlogs();
-    });
-  }
-
-  dislikeBlog(id) {
-    this.blogService.dislikeBlog(id).subscribe(data => {
-      this.getAllBlogs();
-    })
-  }
-  getTooltipMessage(blog, like) {
-    let users = like? blog.likedBy : blog.dislikedBy;
-    if (users.length === 0) {
-      this.tooltipMessage = like ? 'No user like this post yet, be the first one' :
-        'A good blog, no user dislike this yet!';
-    } else {
-      this.tooltipMessage = '';
-      for (let i = 0; i < 3 && i < users.length; i++) {
-        this.tooltipMessage += (users[i] + ', ');
-      }
-      this.tooltipMessage += like? 'etc like this post' : 'etc dislike this blog';
-    }
-  }
-
-  /**
-   * Create comment form
-   */
-  createCommentForm() {
-    this.commentForm = this.formBuilder.group({
-      comment: ['', Validators.compose([
-        Validators.maxLength(100),
-        Validators.minLength(1),
-        Validators.required
-      ])]
-    })
-  }
-
-  /**
-   * Enable and disable comment form
-   */
-  enableCommentForm() {
-    this.commentForm.controls['comment'].enable();
-  }
-  disableCommentForm() {
-    this.commentForm.controls['comment'].disable();
-  }
-
-  /**
-   * Create a comment
-   */
-  draftComment(id) {
-    this.newComment = [];
-    this.newComment.push(id);
-  }
-  /**
-   * Post comment
-   */
-  postComment(id) {
-    this.processing = true;
-    this.disableCommentForm();
-    this.blogService.postComment(id, this.commentForm.get('comment').value).subscribe(data => {
-      if (!data['success']) {
-        console.log(data['message']);
-        this.processing = false;
-        this.enableCommentForm();
-      } else {
-        this.getAllBlogs();
-        const ind = this.newComment.indexOf(id);
-        this.newComment.splice(ind, 1);
-        this.enableCommentForm();
-        this.processing = false;
-        this.commentForm.reset();
-        if (this.enabledComment.indexOf(id) === -1) {
-          this.expand(id);
-        }
-      }
-    });
-  }
-
-  cancelComment(id) {
-    const ind = this.newComment.indexOf(id);
-    this.newComment.splice(ind,1);
-    this.commentForm.reset();
-    this.enableCommentForm();
-    this.processing = false;
-  }
-
-  expand(id) {
-    this.enabledComment.push(id);
-  }
-  collapse(id) {
-    const ind = this.enabledComment.indexOf(id);
-    this.enabledComment.splice(ind, 1);
-  }
 
   ngOnInit() {
     this.authService.getProfile().subscribe(profile => {

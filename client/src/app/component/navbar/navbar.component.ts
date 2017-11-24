@@ -26,10 +26,10 @@ export class NavbarComponent implements OnInit {
 
   createSearchForm() {
     this.searchForm = this.formBuilder.group({
-      username: ['', Validators.compose(
+      username: ['', Validators.compose([
         Validators.required,
         this.usernameValidator
-      )]
+      ])]
     });
   }
 
@@ -65,7 +65,7 @@ export class NavbarComponent implements OnInit {
     this.searching = true;
     this.disableSearchForm();
 
-    this.authService.searchUser().subscribe(data => {
+    this.authService.searchUser(this.searchForm.get('username').value).subscribe(data => {
       if(!data['success']) {
         this.searching = false;
         this.enableSearchForm();

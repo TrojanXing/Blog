@@ -17,6 +17,7 @@ import { LoginComponent} from "./component/login/login.component";
 import { ProfileComponent } from "./component/profile/profile.component";
 import { FlashMessagesModule } from "angular2-flash-messages";
 import { BlogComponent } from "./component/blog/blog.component";
+import { BlogItemComponent } from "./component/blog/blog-item/blog-item.component";
 import { EditBlogComponent } from "./component/blog/edit-blog/edit-blog.component";
 import { DeleteBlogComponent } from "./component/blog/delete-blog/delete-blog.component";
 import { ConnectMeComponent } from "./component/connect-me/connect-me.component";
@@ -40,6 +41,7 @@ import { BlogService } from "./service/blog.service";
     FooterComponent,
     ProfileComponent,
     BlogComponent,
+    BlogItemComponent,
     EditBlogComponent,
     DeleteBlogComponent,
     ConnectMeComponent,

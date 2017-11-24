@@ -2,22 +2,6 @@
   height: 50px;
 }
 
-.card-header {
-  background-color: #07336A;
-  color: white;
-}
-.dropdown {
-  display: inline-block;
-}
-.dropdown-toggle::after {
-  display:none
-}
-
-.card-footer button {
-  min-width:72px;
-  min-height: 33px;
-}
-
 .btn-warning {
   color: white;
 }

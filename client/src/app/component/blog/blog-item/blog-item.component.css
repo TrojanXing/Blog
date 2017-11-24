@@ -1,0 +1,9 @@
+.card-header {
+  background-color: #07336A;
+  color: white;
+}
+
+.card-footer button {
+  min-width:72px;
+  min-height: 33px;
+}
