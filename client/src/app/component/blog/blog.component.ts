@@ -11,6 +11,11 @@ import { BlogService } from "../../service/blog.service";
 })
 export class BlogComponent implements OnInit {
 
+  currentPage = 1;
+  blogNumber;
+  itemsPerPage = 5;
+  hasNextPage = false;
+  hasPrevPage = false;
   messageClass;
   message;
   newPost = false;
@@ -19,6 +24,8 @@ export class BlogComponent implements OnInit {
   processing = false;
   username;
   blogPosts;
+
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -97,7 +104,12 @@ export class BlogComponent implements OnInit {
       } else {
         this.messageClass = 'alert alert-success';
         this.message = data['message'];
-        this.getAllBlogs();
+        this.blogService.getBlogNumber().subscribe(data => {
+          if (data['success']) {
+            this.blogNumber = data['count'];
+          }
+        });
+        this.changePage(1);
         this.processing = false;
         setTimeout(() => {
           this.newPost = false;
@@ -112,10 +124,32 @@ export class BlogComponent implements OnInit {
   /**
    * Get all blog from server
    */
-  getAllBlogs() {
-    this.blogService.getAllBlog().subscribe(data => {
+  // getAllBlogs() {
+  //   this.blogService.getAllBlog().subscribe(data => {
+  //     this.blogPosts = data['blogs'];
+  //   });
+  // }
+
+  /**
+   * Get blogs for current page
+   */
+  getBlogs() {
+    this.blogService.getBlogPage(this.currentPage).subscribe(data => {
+      // console.log(data);
       this.blogPosts = data['blogs'];
     });
+  }
+
+  /**
+   * Change page
+   */
+  changePage(page) {
+    if (page >= 1) {
+      this.currentPage = page;
+      this.getBlogs();
+      this.hasNextPage = (this.currentPage * this.itemsPerPage < this.blogNumber);
+      this.hasPrevPage = this.currentPage > 1;
+    }
   }
 
   /**
@@ -130,13 +164,11 @@ export class BlogComponent implements OnInit {
    */
   reloadBlog() {
     this.loadingBlog = true;
-    this.getAllBlogs();
+    this.getBlogs();
     setTimeout(() => {
       this.loadingBlog = false;
     }, 2000);
   }
-
-
 
   ngOnInit() {
     this.authService.getProfile().subscribe(profile => {
@@ -144,7 +176,19 @@ export class BlogComponent implements OnInit {
         this.username = profile['user']['username'];
       }
     });
-    this.getAllBlogs();
+    this.blogService.getBlogNumber().subscribe(data => {
+      // console.log(data['success']);
+      // console.log(data['count']);
+      if (data['success']) {
+        this.blogNumber = data['count'];
+        this.hasPrevPage = false;
+        this.hasNextPage = (this.currentPage * this.itemsPerPage < this.blogNumber);
+      }
+    });
+
+    // console.log(this.blogNumber);
+    // console.log(this.hasNextPage);
+    this.getBlogs();
   }
 
 }
