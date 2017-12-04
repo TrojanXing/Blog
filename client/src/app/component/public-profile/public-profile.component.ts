@@ -10,7 +10,6 @@ import {ActivatedRoute, Params} from "@angular/router";
 })
 export class PublicProfileComponent implements OnInit {
 
-  currentUrl;
   message;
   messageClass;
   username;
@@ -22,8 +21,6 @@ export class PublicProfileComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // this.currentUrl = this.activatedRoute.snapshot.params;
-    // console.log(this.currentUrl);
     this.activatedRoute.params.forEach((params: Params) => {
       this.authService.searchUser(params.username).subscribe(data => {
         if (!data['success']) {
@@ -35,7 +32,6 @@ export class PublicProfileComponent implements OnInit {
           this.messageClass = 'alert alert-success';
           this.message = 'User found';
           console.log(data);
-          // console.log(this.email);
         }
         setTimeout(() => {
           this.messageClass = null;
