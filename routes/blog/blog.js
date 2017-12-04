@@ -5,12 +5,30 @@ const router = require('express').Router();
 const verifyToken = require('../routesMiddleware').verifyToken;
 
 mongoose.Promise = global.Promise;
+const itemsPerPage = 5;
 
 /**
  * Middleware
  * Grab token, all operations needing auth are blow this
  */
 router.use((req, res, next) => verifyToken(req, res, next));
+
+/**
+ * Get number of total blogs
+ */
+router.get('/blogNumber', (req, res) => {
+  Blog.count({}, (err, count) => {
+    if (err) {
+      res.json({ success: false, message: err.message });
+    } else {
+      if (!count) {
+        res.json({ success: false, message: 'Cannot get total number'});
+      } else {
+        res.json({ success: true, count:count});
+      }
+    }
+  })
+});
 
 /**
  * Post a new blog
@@ -54,7 +72,9 @@ router.post('/newBlog', (req, res) => {
   }
 });
 
-
+/**
+ * Get all blogs
+ */
 
 router.get('/allBlogs', function (req, res) {
   Blog.find({}, (err, blogs) => {
@@ -68,6 +88,33 @@ router.get('/allBlogs', function (req, res) {
       }
     }
   }).sort({'_id': -1})
+});
+
+/**
+ * Get blogs in one single page
+ */
+
+router.get('/blogs/:page', function (req, res) {
+  if (!req.params.page) {
+    res.json({ success: false, message: 'Page num is not provided' });
+  } else {
+    Blog.find({})
+      .skip(itemsPerPage * (req.params.page - 1))
+      .limit(itemsPerPage)
+      .sort({'_id': -1})
+      .exec((err, blogs) => {
+        if (err) {
+          res.json({ success: false, message: err })
+        } else {
+          if (!blogs) {
+            res.json({ success: false, message: 'Blogs Not Found'});
+          } else {
+            res.json({  success: true, blogs: blogs });
+          }
+        }
+      });
+  }
+
 });
 
 /**
