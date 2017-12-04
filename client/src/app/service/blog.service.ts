@@ -28,9 +28,19 @@ export class BlogService {
     return this.http.post(this.domain + '/blog/newBlog', blog, this.httpOptions);
   }
 
+  getBlogNumber() {
+    this.createAuthHeader();
+    return this.http.get(this.domain + '/blog/blogNumber', this.httpOptions);
+  }
+
   getAllBlog() {
     this.createAuthHeader();
     return this.http.get(this.domain + '/blog/allBlogs', this.httpOptions);
+  }
+
+  getBlogPage(page) {
+    this.createAuthHeader();
+    return this.http.get(this.domain + '/blog/blogs/' + page, this.httpOptions);
   }
 
   getSingleBlog(id) {
