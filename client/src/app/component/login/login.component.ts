@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Form, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, Validators } from "@angular/forms";
 import { AuthService } from "../../service/auth.service";
 import { Router } from "@angular/router";
 import { AuthGuard } from "../../guards/auth.guard";

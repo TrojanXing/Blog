@@ -52,6 +52,7 @@
   <!-- Blog List -->
   <div *ngIf="!newPost">
     <app-blog-item *ngFor="let blog of blogPosts" [blog]="blog" [username]="username" (updateBlogs)="getAllBlogs()"></app-blog-item>
+    <hr>
     <!-- Pagination -->
     <nav aria-label="Page navigation mt-2">
       <ul class="pagination">

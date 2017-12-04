@@ -15,13 +15,11 @@ export class NavbarComponent implements OnInit {
     public authService: AuthService,
     private router: Router,
     private flashMessagesService: FlashMessagesService,
-  ) {
-  }
+  ) {}
 
   searchSubmit(username) {
     this.router.navigate(['/user', username]);
   }
-
 
   onLogoutClick() {
     this.authService.logout();
