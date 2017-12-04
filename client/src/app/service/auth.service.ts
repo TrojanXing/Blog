@@ -50,7 +50,9 @@ export class AuthService {
   }
 
   searchUser(username){
-    return this.http.get(this.domain + '/user/publicProfile/' + username);
+    this.createAuthHeader();
+    // console.log(username);
+    return this.http.get(this.domain + '/user/publicProfile/' + username, this.httpOptions);
   }
 
   logout() {

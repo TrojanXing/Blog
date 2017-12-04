@@ -24,6 +24,7 @@ import { ConnectMeComponent } from "./component/connect-me/connect-me.component"
 import { ContactInfoComponent } from "./component/connect-me/contact-info/contact-info.component";
 import { ReportBugsComponent } from "./component/connect-me/report-bugs/report-bugs.component";
 import { ContributeComponent } from "./component/connect-me/contribute/contribute.component";
+import { PublicProfileComponent } from "./component/public-profile/public-profile.component";
 // Service
 import { AuthService } from "./service/auth.service";
 import { AuthGuard } from "./guards/auth.guard";
@@ -47,7 +48,8 @@ import { BlogService } from "./service/blog.service";
     ConnectMeComponent,
     ContactInfoComponent,
     ReportBugsComponent,
-    ContributeComponent
+    ContributeComponent,
+    PublicProfileComponent
   ],
   imports: [
     BrowserModule,

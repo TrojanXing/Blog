@@ -26,10 +26,14 @@
       </li>
     </ul>
     <ul class="navbar-nav my-2 my-lg-0">
-      <form class="form-inline my-2 my-lg-0 mr-2" *ngIf="authService.loggedIn()" (submit)="onSearchSubmit()">
-        <input class="form-control mr-sm-2" type="text" placeholder="Search Friends">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
+      <!--<form class="form-inline my-2 my-lg-0 mr-2" *ngIf="authService.loggedIn()" (submit)="onSearchSubmit()">-->
+        <!--<input class="form-control mr-sm-2" type="text" placeholder="Search Friends">-->
+        <!--<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
+      <!--</form>-->
+      <div class="form-inline my-2 my-lg-0 mr-2" *ngIf="authService.loggedIn()">
+        <input #username class="form-control mr-sm-2" type="text" placeholder="Search Friends" (keyup.enter)="searchSubmit(username.value); username.value=''">
+        <button class="btn btn-outline-success my-2 my-sm-0" (click)="searchSubmit(username.value); username.value=''">Search</button>
+      </div>
       <li class="nav-item mr-2" *ngIf="!authService.loggedIn()">
         <button routerLink="/register" class="btn btn-outline-primary my-1" role="button">Sign Up</button>
       </li>

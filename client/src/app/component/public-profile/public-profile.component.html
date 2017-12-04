@@ -1,0 +1,17 @@
+<div class="container">
+  <h2>User Profile</h2>
+  <hr>
+
+  <div class="show-hide-message">
+    <div [ngClass]="messageClass" *ngIf="messageClass">
+      {{ message }}
+    </div>
+  </div>
+
+  <table class="table table-responsive table-hover table-bordered col-md-10 mx-auto" >
+    <tbody>
+    <tr><th scope="row" width="40%" class="firstCol">Username</th><td width="60%">{{ username }}</td></tr>
+    <tr><th scope="row">Email</th><td>{{ email }}</td></tr>
+    </tbody>
+  </table>
+</div>

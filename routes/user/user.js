@@ -18,7 +18,7 @@ router.get('/publicProfile/:username', (req, res) => {
         if (err) {
           res.json({ success: false, message: 'Something wrong with the database'});
         } else {
-          if (!user) {
+          if (user.length === 0) {
             res.json({ success: false, message: 'Cannot get user with given name'});
           } else {
             res.json({ success: true, user: user});
