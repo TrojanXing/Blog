@@ -11,7 +11,7 @@
   <div class="card-footer">
     <!--Post info-->
     <div class="row mb-2">
-      <div class="col-sm-6"><strong>Posted by: </strong>{{ blog.createdBy }}</div>
+      <div class="col-sm-6"><strong>Posted by: </strong><a [routerLink]="['/user/', blog.createdBy]">{{ blog.createdBy }}</a></div>
       <div class="col-sm-6"><strong>Data: </strong>{{ blog.createdAt | date: 'MMM dd, yyyy'}}</div>
       <div class="col-sm-6" *ngIf="username === blog.createdBy"><strong>Likes: </strong>{{blog.likes}}</div>
       <div class="col-sm-6" *ngIf="username === blog.createdBy"><strong>Dislike: </strong>{{blog.dislikes}}</div>
