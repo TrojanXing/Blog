@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
+const Schema = mongoose.Schema;
 
 mongoose.Promise = global.Promise;
 const Scheme = mongoose.Schema;
@@ -87,7 +88,11 @@ const userSchema = new Scheme({
     type: String,
     require: true,
     validate: passwordValidators
-  }
+  },
+  friends: [{
+    type: Schema.Types.ObjectId,
+    ref: 'user'
+  }]
 });
 
 /**
