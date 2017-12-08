@@ -7,7 +7,7 @@ const config = require('../../config/config');
 mongoose.Promise = global.Promise;
 
 router.post('/register', (req, res) => {
-  console.log(req.body.email);
+  // console.log(req.body.email);
   if (!req.body.email) {
     res.json({ success: false, message: 'You must provide an e-mail'});
   } else if (!req.body.username) {
@@ -69,7 +69,7 @@ router.get('/checkemail/:email', (req, res) => {
 });
 
 router.get('/checkusername/:username', (req, res) => {
-  // console.log('get request');
+  // // console.log('get request');
   if(!req.params.username) {
     res.json({ success: false, message: 'Username was not provided' });
   } else {
@@ -90,8 +90,8 @@ router.get('/checkusername/:username', (req, res) => {
 
 router.post('/login', (req, res) => {
   if (!req.body.username || !req.body.password) {
-    console.log(req.body.username);
-    console.log(req.body.password);
+    // console.log(req.body.username);
+    // console.log(req.body.password);
     res.json({ success: false, message: 'No username or password is provided'})
   } else {
     User.findOne({username: req.body.username}, (err, user) => {
