@@ -62,4 +62,43 @@ router.get('/profile', (req, res) => {
   })
 });
 
+/**
+ * Add friend
+ */
+router.post('/addFriend/:friendname', (req, res) => {
+  if(!req.params.friendname) {
+    res.json({ success: false, message: 'No friend provided'});
+  } else {
+    User.findOne({ _id: req.decoded.userId }, (err, user) => {
+      if(err) {
+        res.json({ success: false, message: 'Cannot find user'});
+      } else {
+        if(!user) {
+          res.json({ success: false, message: 'User no not exist'});
+        } else {
+          User.findOne({ username: req.params.friendname }, (err, friend) => {
+            if(err) {
+              res.json({ success: false, message: 'Cannot find your friend'});
+            } else {
+              if(!friend) {
+                res.json({ success: false, message: 'Friend do not exist'});
+              } else {
+                let friends = user.friends;
+                friends.push(friend.username);
+                user.update({friends: friends}, (err) => {
+                  if (err) {
+                    res.json({ success: false, message: err.message});
+                  } else {
+                    res.json({ success: true, message: 'Friend added to your contact' ,user: user})
+                  }
+                });
+              }
+            }
+          })
+        }
+      }
+    });
+  }
+});
+
 module.exports = router;

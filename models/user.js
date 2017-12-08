@@ -89,10 +89,10 @@ const userSchema = new Scheme({
     require: true,
     validate: passwordValidators
   },
-  friends: [{
-    type: Schema.Types.ObjectId,
-    ref: 'user'
-  }]
+  friends: {
+    type: Array
+  }
+
 });
 
 /**
