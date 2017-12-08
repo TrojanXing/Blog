@@ -84,14 +84,19 @@ router.post('/addFriend/:friendname', (req, res) => {
                 res.json({ success: false, message: 'Friend do not exist'});
               } else {
                 let friends = user.friends;
-                friends.push(friend.username);
-                user.update({friends: friends}, (err) => {
-                  if (err) {
-                    res.json({ success: false, message: err.message});
-                  } else {
-                    res.json({ success: true, message: 'Friend added to your contact' ,user: user})
-                  }
-                });
+                let ind = friends.indexOf(friend.username);
+                if (ind !== -1) {
+                  res.json({ success: false, message: 'You have already cojnnect with ' + friend.username});
+                } else {
+                  friends.push(friend.username);
+                  user.update({friends: friends}, (err) => {
+                    if (err) {
+                      res.json({ success: false, message: err.message});
+                    } else {
+                      res.json({ success: true, message: 'Friend added to your contact' ,user: user})
+                    }
+                  });
+                }
               }
             }
           })
