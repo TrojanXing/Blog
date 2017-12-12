@@ -25,7 +25,7 @@ export class BlogService {
 
   newBlog(blog) {
     this.createAuthHeader();
-    return this.http.post(this.domain + '/blog/newBlog', blog, this.httpOptions);
+    return this.http.post(this.domain + '/blog', blog, this.httpOptions);
   }
 
   getBlogNumber() {
@@ -33,29 +33,29 @@ export class BlogService {
     return this.http.get(this.domain + '/blog/blogNumber', this.httpOptions);
   }
 
-  getAllBlog() {
-    this.createAuthHeader();
-    return this.http.get(this.domain + '/blog/allBlogs', this.httpOptions);
-  }
+  // getAllBlog() {
+  //   this.createAuthHeader();
+  //   return this.http.get(this.domain + '/blog/allBlogs', this.httpOptions);
+  // }
 
   getBlogPage(page) {
     this.createAuthHeader();
-    return this.http.get(this.domain + '/blog/blogs/' + page, this.httpOptions);
+    return this.http.get(this.domain + '/blog/page/' + page, this.httpOptions);
   }
 
   getSingleBlog(id) {
     this.createAuthHeader();
-    return this.http.get(this.domain + '/blog/singleBlog/' + id, this.httpOptions);
+    return this.http.get(this.domain + '/blog/' + id, this.httpOptions);
   }
 
   editBlog(blog) {
     this.createAuthHeader();
-    return this.http.put(this.domain + '/blog/updateBlog', blog, this.httpOptions);
+    return this.http.put(this.domain + '/blog', blog, this.httpOptions);
   }
 
   deleteBlog(id) {
     this.createAuthHeader();
-    return this.http.delete(this.domain + '/blog/deleteBlog/' + id, this.httpOptions);
+    return this.http.delete(this.domain + '/blog/' + id, this.httpOptions);
   }
 
   likeBlog(id) {
@@ -63,7 +63,7 @@ export class BlogService {
     let body = {
       _id: id
     };
-    return this.http.put(this.domain + '/blog/likeBlog', body, this.httpOptions);
+    return this.http.put(this.domain + '/blog/like', body, this.httpOptions);
   }
 
   dislikeBlog(id) {
@@ -71,7 +71,7 @@ export class BlogService {
     let body = {
       _id: id
     };
-    return this.http.put(this.domain + '/blog/dislikeBlog', body, this.httpOptions);
+    return this.http.put(this.domain + '/blog/dislike', body, this.httpOptions);
   }
 
   postComment(id, comment) {

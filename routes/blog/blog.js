@@ -33,7 +33,7 @@ router.get('/blogNumber', (req, res) => {
 /**
  * Post a new blog
  */
-router.post('/newBlog', (req, res) => {
+router.post('/', (req, res) => {
   if (!req.body.title) {
     res.json({ success: false, message: 'Blog title is required'});
   } else if (!req.body.body) {
@@ -75,26 +75,26 @@ router.post('/newBlog', (req, res) => {
 /**
  * Get all blogs
  */
-
-router.get('/allBlogs', function (req, res) {
-  Blog.find({}, (err, blogs) => {
-    if (err) {
-      res.json({ success: false, message: err })
-    } else {
-      if (!blogs) {
-        res.json({ success: false, message: 'Blogs Not Found'});
-      } else {
-        res.json({  success: true, blogs: blogs });
-      }
-    }
-  }).sort({'_id': -1})
-});
+//
+// router.get('/allBlogs', function (req, res) {
+//   Blog.find({}, (err, blogs) => {
+//     if (err) {
+//       res.json({ success: false, message: err })
+//     } else {
+//       if (!blogs) {
+//         res.json({ success: false, message: 'Blogs Not Found'});
+//       } else {
+//         res.json({  success: true, blogs: blogs });
+//       }
+//     }
+//   }).sort({'_id': -1})
+// });
 
 /**
  * Get blogs in one single page
  */
 
-router.get('/blogs/:page', function (req, res) {
+router.get('/page/:page', function (req, res) {
   if (!req.params.page) {
     res.json({ success: false, message: 'Page num is not provided' });
   } else {
@@ -120,7 +120,7 @@ router.get('/blogs/:page', function (req, res) {
 /**
  * Get one single blog
  */
-router.get('/singleBlog/:id', (req, res) => {
+router.get('/:id', (req, res) => {
   if (!req.params.id) {
     res.json({ success: false, message: 'No blog id provided' })
   } else {
@@ -155,7 +155,7 @@ router.get('/singleBlog/:id', (req, res) => {
 /**
  * Update a blog
  */
-router.put('/updateBlog', (req, res) => {
+router.put('/', (req, res) => {
   if (!req.body._id) {
     res.json({ success: false, message: 'No blog id provided' })
   } else {
@@ -199,7 +199,7 @@ router.put('/updateBlog', (req, res) => {
 /**
  * Delete a blog
  */
-router.delete('/deleteBlog/:id', (req, res) => {
+router.delete('/:id', (req, res) => {
   if (!req.params.id) {
     res.json({ success: false, message: 'No blog id provided' });
   } else {
@@ -242,7 +242,7 @@ router.delete('/deleteBlog/:id', (req, res) => {
 /**
  * Like a ppost
  */
-router.put('/likeBlog', (req, res) => {
+router.put('/like', (req, res) => {
   if (!req.body._id) {
     res.json({ success: false, message: 'No blog id provided' })
   } else {
@@ -295,7 +295,7 @@ router.put('/likeBlog', (req, res) => {
 /**
  * Dislike a post
  */
-router.put('/dislikeBlog', function (req, res) {
+router.put('/dislike', function (req, res) {
   if (!req.body._id) {
     res.json({ success: false, message: 'No blog id provided' })
   } else {

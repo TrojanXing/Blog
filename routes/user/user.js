@@ -65,7 +65,7 @@ router.get('/profile', (req, res) => {
 /**
  * Add friend
  */
-router.post('/addFriend/:friendname', (req, res) => {
+router.post('/friend/:friendname', (req, res) => {
   if(!req.params.friendname) {
     res.json({ success: false, message: 'No friend provided'});
   } else {
